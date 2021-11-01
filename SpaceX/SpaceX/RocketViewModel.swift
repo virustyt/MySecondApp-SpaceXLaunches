@@ -30,8 +30,8 @@ class RocketViewModel{
     
     init(rocket: Rocket){
         self.rocket = rocket
-        self.height = "\(rocket.height.meters) meters"
-        self.diameter = "\(rocket.diameter.meters) meters"
+        self.height = "\(Decimal( rocket.height.meters)) meters"
+        self.diameter = "\(Decimal(rocket.diameter.meters)) meters"
         self.mass = "\(rocket.mass.kg) kg"
         self.firstStage = FirstStageViewModel(rocket)
         self.secondStage = SecondStageViewModel(rocket)
@@ -60,13 +60,8 @@ class RocketViewModel{
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd"
         guard let date = dateFormatter.date(from: rocket.firstFlight) else { return "" }
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.month,.day,.year], from: date)
-        guard let month = components.month,
-              let day = components.day,
-              let year = components.year
-        else { return "" }
-        return "\(month) \(day), \(year)"
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMMd, yyyy")
+        return dateFormatter.string(from: date)
     }
 }
 
@@ -83,7 +78,7 @@ extension RocketViewModel {
         init(_ rocket: Rocket) {
             self.thrustSeaLevel = "\(rocket.firstStage.thrustSeaLevel.kN) kN"
             self.thrustVacuum = "\(rocket.firstStage.thrustVacuum.kN) kN"
-            self.reusable = "\(rocket.firstStage.reusable)"
+            self.reusable = rocket.firstStage.reusable ? "Yes" : "No"
             self.engines = "\(rocket.firstStage.engines)"
             self.fuelAmountTons = "\(rocket.firstStage.fuelAmountTons) tons"
             self.burnTimeSEC = "\(rocket.firstStage.burnTimeSEC) seconds"
@@ -98,8 +93,8 @@ extension RocketViewModel {
         let burnTimeSEC: String
         
         init(_ rocket: Rocket){
-            self.thrust = "\(rocket.secondStage.thrust) kN"
-            self.reusable = "\(rocket.secondStage.reusable)"
+            self.thrust = "\(rocket.secondStage.thrust.kN) kN"
+            self.reusable = rocket.secondStage.reusable ? "Yes" : "No"
             self.engines = "\(rocket.secondStage.engines)"
             self.fuelAmountTons = "\(rocket.secondStage.fuelAmountTons) tons"
             self.burnTimeSEC = "\(rocket.secondStage.burnTimeSEC) seconds"
