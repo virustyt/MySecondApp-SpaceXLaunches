@@ -86,6 +86,29 @@ class LaunchesNetClientTests: XCTestCase {
         XCTAssertEqual(queue, sut.resopnseQueue)
     }
     
+    func test_shared_setBaseUrls(){
+        //given
+        let baseUrls: [LaunchesNetClient.SpaceXObject : URL] = [.rockets:URL(string: "https://api.spacexdata.com/v4/")!,
+                                                                .launches: URL(string: "https://api.spacexdata.com/v5/")!,
+                                                                .launchpads: URL(string: "https://api.spacexdata.com/v4/")!]
+        //then
+        XCTAssertEqual(baseUrls, LaunchesNetClient.shared.baseUrls)
+    }
+    
+    func test_shared_setUrlSession(){
+        //given
+        let session = URLSession.shared
+        //then
+        XCTAssertEqual(session, LaunchesNetClient.shared.urlSession)
+    }
+    
+    func test_shared_setResponseQueue(){
+        //given
+        let responseQueue = DispatchQueue.main
+        //then
+        XCTAssertEqual(responseQueue, LaunchesNetClient.shared.resopnseQueue)
+    }
+    
     func test_getAllRockets_callsExpectedUrl(){
         //given
         let expectation = self.expectation(description: "MockUrlProtocols complition handler was called befor test ends")

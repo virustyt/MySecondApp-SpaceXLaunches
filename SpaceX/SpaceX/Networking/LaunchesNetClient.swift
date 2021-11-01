@@ -22,6 +22,11 @@ class LaunchesNetClient {
     var baseUrls: [SpaceXObject: URL]
     var urlSession: URLSession
     var resopnseQueue: DispatchQueue? = nil
+    static let shared = LaunchesNetClient(baseUrls: [.rockets:URL(string: "https://api.spacexdata.com/v4/")!,
+                                              .launches: URL(string: "https://api.spacexdata.com/v5/")!,
+                                              .launchpads: URL(string: "https://api.spacexdata.com/v4/")!],
+                                   urlSession: URLSession.shared,
+                                   responseQueue: .main)
     
     init(baseUrls:[SpaceXObject: URL], urlSession: URLSession = URLSession.shared, responseQueue: DispatchQueue?){
         self.baseUrls = baseUrls
@@ -60,7 +65,6 @@ class LaunchesNetClient {
             return
         }
         responseQueue.async { complitionHandler(model,error) }
-
     }
 }
 
