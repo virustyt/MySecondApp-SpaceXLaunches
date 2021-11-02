@@ -26,6 +26,8 @@
 		8458E5E22731670000DA923D /* LaunchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458E5E12731670000DA923D /* LaunchViewModelTests.swift */; };
 		8458E5E52731718300DA923D /* Launchpad.json in Resources */ = {isa = PBXBuildFile; fileRef = 8458E5E42731718300DA923D /* Launchpad.json */; };
 		8458E5E72731823100DA923D /* LaunchpadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458E5E62731823100DA923D /* LaunchpadTests.swift */; };
+		8458E5E927318A7400DA923D /* LaunchpadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458E5E827318A7400DA923D /* LaunchpadViewModel.swift */; };
+		8458E5EB27318D5100DA923D /* LaunchpadViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458E5EA27318D5100DA923D /* LaunchpadViewModelTests.swift */; };
 		84C54F4B27216AB400C1CF9B /* LaunchesNetClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C54F4A27216AB400C1CF9B /* LaunchesNetClientTests.swift */; };
 		84C54F4E27216AED00C1CF9B /* LaunchesNetClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C54F4D27216AED00C1CF9B /* LaunchesNetClient.swift */; };
 		84F3A86D271C120800AF3CE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3A86C271C120800AF3CE6 /* AppDelegate.swift */; };
@@ -74,6 +76,8 @@
 		8458E5E12731670000DA923D /* LaunchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModelTests.swift; sourceTree = "<group>"; };
 		8458E5E42731718300DA923D /* Launchpad.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Launchpad.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.json; };
 		8458E5E62731823100DA923D /* LaunchpadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchpadTests.swift; sourceTree = "<group>"; };
+		8458E5E827318A7400DA923D /* LaunchpadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchpadViewModel.swift; sourceTree = "<group>"; };
+		8458E5EA27318D5100DA923D /* LaunchpadViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchpadViewModelTests.swift; sourceTree = "<group>"; };
 		84C54F4A27216AB400C1CF9B /* LaunchesNetClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesNetClientTests.swift; sourceTree = "<group>"; };
 		84C54F4D27216AED00C1CF9B /* LaunchesNetClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesNetClient.swift; sourceTree = "<group>"; };
 		84F3A869271C120800AF3CE6 /* SpaceX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,6 +150,7 @@
 			children = (
 				8426B214272FFAA600D35D48 /* RocketViewModel.swift */,
 				8458E5DC273147E200DA923D /* LaunchViewModel.swift */,
+				8458E5E827318A7400DA923D /* LaunchpadViewModel.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			children = (
 				8426B217273050BA00D35D48 /* RocketViewModelTests.swift */,
 				8458E5E12731670000DA923D /* LaunchViewModelTests.swift */,
+				8458E5EA27318D5100DA923D /* LaunchpadViewModelTests.swift */,
 			);
 			path = viewModels;
 			sourceTree = "<group>";
@@ -460,6 +466,7 @@
 				8458E5D32731065300DA923D /* Launch.swift in Sources */,
 				8426B215272FFAA600D35D48 /* RocketViewModel.swift in Sources */,
 				840D1821271EEF6400133AC1 /* Rocket.swift in Sources */,
+				8458E5E927318A7400DA923D /* LaunchpadViewModel.swift in Sources */,
 				84F3A86F271C120800AF3CE6 /* SceneDelegate.swift in Sources */,
 				8458E5DD273147E200DA923D /* LaunchViewModel.swift in Sources */,
 			);
@@ -478,6 +485,7 @@
 				8458E5E72731823100DA923D /* LaunchpadTests.swift in Sources */,
 				84388F46272E6EC9007B8BC8 /* XCTAssertEqualsToAny.swift in Sources */,
 				8458E5E22731670000DA923D /* LaunchViewModelTests.swift in Sources */,
+				8458E5EB27318D5100DA923D /* LaunchpadViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
