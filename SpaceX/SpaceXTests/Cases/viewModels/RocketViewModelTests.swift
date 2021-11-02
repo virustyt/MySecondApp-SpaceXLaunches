@@ -94,7 +94,7 @@ class RocketViewModelTests: XCTestCase {
         sut = RocketViewModel(rocket: rocket)
     }
 
-    //MARK: = Initial tests
+    //MARK: - Initial tests
     func test_initRocket_setRocket(){
         XCTAssertEqual(sut.rocket, rocket)
     }
