@@ -18,6 +18,10 @@
 		84357FF9272D9EA800BB1BE6 /* DecodableTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84357FF8272D9EA800BB1BE6 /* DecodableTestCase.swift */; };
 		84357FFB272DA84900BB1BE6 /* Rocket.json in Resources */ = {isa = PBXBuildFile; fileRef = 84357FFA272DA84900BB1BE6 /* Rocket.json */; };
 		84388F46272E6EC9007B8BC8 /* XCTAssertEqualsToAny.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84388F45272E6EC9007B8BC8 /* XCTAssertEqualsToAny.swift */; };
+		8458E5D32731065300DA923D /* Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458E5D22731065300DA923D /* Launch.swift */; };
+		8458E5D52731167400DA923D /* GET_Launches_Response.json in Resources */ = {isa = PBXBuildFile; fileRef = 8458E5D42731167400DA923D /* GET_Launches_Response.json */; };
+		8458E5D927311C0200DA923D /* LaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458E5D827311C0200DA923D /* LaunchTests.swift */; };
+		8458E5DB27311D8300DA923D /* Launch.json in Resources */ = {isa = PBXBuildFile; fileRef = 8458E5DA27311D8300DA923D /* Launch.json */; };
 		84C54F4B27216AB400C1CF9B /* LaunchesNetClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C54F4A27216AB400C1CF9B /* LaunchesNetClientTests.swift */; };
 		84C54F4E27216AED00C1CF9B /* LaunchesNetClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C54F4D27216AED00C1CF9B /* LaunchesNetClient.swift */; };
 		84F3A86D271C120800AF3CE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F3A86C271C120800AF3CE6 /* AppDelegate.swift */; };
@@ -58,6 +62,10 @@
 		84357FF8272D9EA800BB1BE6 /* DecodableTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableTestCase.swift; sourceTree = "<group>"; };
 		84357FFA272DA84900BB1BE6 /* Rocket.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Rocket.json; sourceTree = "<group>"; };
 		84388F45272E6EC9007B8BC8 /* XCTAssertEqualsToAny.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTAssertEqualsToAny.swift; sourceTree = "<group>"; };
+		8458E5D22731065300DA923D /* Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Launch.swift; sourceTree = "<group>"; };
+		8458E5D42731167400DA923D /* GET_Launches_Response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GET_Launches_Response.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.json; };
+		8458E5D827311C0200DA923D /* LaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LaunchTests.swift; path = SpaceXTests/Cases/LaunchTests.swift; sourceTree = SOURCE_ROOT; };
+		8458E5DA27311D8300DA923D /* Launch.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Launch.json; sourceTree = "<group>"; };
 		84C54F4A27216AB400C1CF9B /* LaunchesNetClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesNetClientTests.swift; sourceTree = "<group>"; };
 		84C54F4D27216AED00C1CF9B /* LaunchesNetClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesNetClient.swift; sourceTree = "<group>"; };
 		84F3A869271C120800AF3CE6 /* SpaceX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +113,7 @@
 			children = (
 				840D181E271ED91B00133AC1 /* Launchpad.swift */,
 				840D1820271EEF6400133AC1 /* Rocket.swift */,
+				8458E5D22731065300DA923D /* Launch.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -144,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				84357FF4272D9E3F00BB1BE6 /* RocketTests.swift */,
+				8458E5D827311C0200DA923D /* LaunchTests.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -174,12 +184,30 @@
 			path = XCTestAdditions;
 			sourceTree = "<group>";
 		};
-		84C54F492721671700C1CF9B /* Data */ = {
+		8458E5D627311BAF00DA923D /* Rocket */ = {
 			isa = PBXGroup;
 			children = (
 				84211407272C081900A96736 /* GET_Rockets_Response.json */,
 				84357FF1272D5B7D00BB1BE6 /* GET_Rockets_MissingValuesResponse.json */,
 				84357FFA272DA84900BB1BE6 /* Rocket.json */,
+			);
+			path = Rocket;
+			sourceTree = "<group>";
+		};
+		8458E5D727311BC300DA923D /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				8458E5D42731167400DA923D /* GET_Launches_Response.json */,
+				8458E5DA27311D8300DA923D /* Launch.json */,
+			);
+			path = Launch;
+			sourceTree = "<group>";
+		};
+		84C54F492721671700C1CF9B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8458E5D727311BC300DA923D /* Launch */,
+				8458E5D627311BAF00DA923D /* Rocket */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -383,6 +411,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84211408272C081900A96736 /* GET_Rockets_Response.json in Resources */,
+				8458E5D52731167400DA923D /* GET_Launches_Response.json in Resources */,
+				8458E5DB27311D8300DA923D /* Launch.json in Resources */,
 				84357FF2272D5B7D00BB1BE6 /* GET_Rockets_MissingValuesResponse.json in Resources */,
 				84357FFB272DA84900BB1BE6 /* Rocket.json in Resources */,
 			);
@@ -406,6 +436,7 @@
 				840D181F271ED91B00133AC1 /* Launchpad.swift in Sources */,
 				84F3A86D271C120800AF3CE6 /* AppDelegate.swift in Sources */,
 				84C54F4E27216AED00C1CF9B /* LaunchesNetClient.swift in Sources */,
+				8458E5D32731065300DA923D /* Launch.swift in Sources */,
 				8426B215272FFAA600D35D48 /* RocketViewModel.swift in Sources */,
 				840D1821271EEF6400133AC1 /* Rocket.swift in Sources */,
 				84F3A86F271C120800AF3CE6 /* SceneDelegate.swift in Sources */,
@@ -420,6 +451,7 @@
 				84357FF9272D9EA800BB1BE6 /* DecodableTestCase.swift in Sources */,
 				84C54F4B27216AB400C1CF9B /* LaunchesNetClientTests.swift in Sources */,
 				8421140B272C0A6E00A96736 /* Data+JSONFile.swift in Sources */,
+				8458E5D927311C0200DA923D /* LaunchTests.swift in Sources */,
 				8426B218273050BA00D35D48 /* RocketViewModelTests.swift in Sources */,
 				84388F46272E6EC9007B8BC8 /* XCTAssertEqualsToAny.swift in Sources */,
 			);
