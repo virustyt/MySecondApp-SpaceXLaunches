@@ -129,3 +129,9 @@ extension RocketViewModel {
         }
     }
 }
+
+extension RocketViewModel: Equatable {
+    static func == (lhs: RocketViewModel, rhs: RocketViewModel) -> Bool {
+        return (lhs.rocket == rhs.rocket)
+    }
+}

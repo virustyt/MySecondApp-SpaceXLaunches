@@ -62,7 +62,7 @@ class LaunchesNetClientTests: XCTestCase {
         let expectation = self.expectation(description: "getAllRockets calls complition")
         var complitionThread: Thread!
         //when
-        sut.getAllRockets(complition: { rockets, error in
+        _ = sut.getAllRockets(complition: { rockets, error in
             complitionThread = Thread.current
             expectation.fulfill()
         })
@@ -70,6 +70,7 @@ class LaunchesNetClientTests: XCTestCase {
         XCTAssertTrue(complitionThread.isMainThread)
     }
     
+    //MARK: - Init tests
     func test_init_setBaseUrls(){
         XCTAssertEqual(baseUrls, sut.baseUrls)
     }
@@ -109,6 +110,18 @@ class LaunchesNetClientTests: XCTestCase {
         XCTAssertEqual(responseQueue, LaunchesNetClient.shared.resopnseQueue)
     }
     
+    func test_conformTo_LaunchesNetProtocol(){
+        XCTAssert((sut as AnyObject) is LaunchesNetProtocol)
+    }
+    
+    func test_LaunchesNetProtocol_declaresGrtAllRockets(){
+        //given
+        let launchesNetProtocolInstance = sut as LaunchesNetProtocol
+        //then
+        _ = launchesNetProtocolInstance.getAllRockets(complition: {_, _ in})
+    }
+    
+    //MARK: - getAllRockets tests
     func test_getAllRockets_callsExpectedUrl(){
         //given
         let expectation = self.expectation(description: "MockUrlProtocols complition handler was called befor test ends")
@@ -118,7 +131,7 @@ class LaunchesNetClientTests: XCTestCase {
             return (nil, nil, nil)
         }
         //when
-        sut.getAllRockets(){_, _ in }
+        _ = sut.getAllRockets(){_, _ in }
         wait(for: [expectation], timeout: 10)
     }
 
@@ -130,7 +143,7 @@ class LaunchesNetClientTests: XCTestCase {
             return (nil, nil, nil)
         }
         //when
-        sut.getAllRockets(complition: {_, _ in})
+        _ = sut.getAllRockets(complition: {_, _ in})
         //then
         wait(for: [expectation], timeout: 10)
     }
@@ -140,7 +153,7 @@ class LaunchesNetClientTests: XCTestCase {
         givenMockUrlResponse(statusCode: 500)
         let expectation = self.expectation(description: "getAllRockets called complition handler.")
         //when
-        sut.getAllRockets(complition: {rockets, error in
+        _ = sut.getAllRockets(complition: {rockets, error in
             XCTAssertNil(rockets)
             XCTAssertNil(error)
             expectation.fulfill()
@@ -155,7 +168,7 @@ class LaunchesNetClientTests: XCTestCase {
         givenMockUrlResponse(error: error)
         let expectetion = self.expectation(description: "getAllRockets called complition handler")
         //when
-        sut.getAllRockets(complition: {rockets, recievedError in
+        _ = sut.getAllRockets(complition: {rockets, recievedError in
             XCTAssertNil(rockets)
             XCTAssertEqual(error?.domain, (recievedError as NSError?)?.domain)
             XCTAssertEqual(error?.code, (recievedError as NSError?)?.code)
@@ -172,7 +185,7 @@ class LaunchesNetClientTests: XCTestCase {
         let expectation = self.expectation(description: "getAllRockets recieved non nil data and called complition handler")
         givenMockUrlResponse(data: data)
         //when
-        sut.getAllRockets(complition: {rockets, error in
+        _ = sut.getAllRockets(complition: {rockets, error in
             XCTAssertEqual(rockets, givenRockets)
             XCTAssertNil(error)
             expectation.fulfill()
@@ -194,7 +207,7 @@ class LaunchesNetClientTests: XCTestCase {
         }
         givenMockUrlResponse(data: data)
         //when
-        sut.getAllRockets(complition: {rockets, error in
+        _ = sut.getAllRockets(complition: {rockets, error in
             XCTAssertNil(rockets)
             let recievedError = error as NSError?
             XCTAssertNotNil(recievedError)
@@ -232,51 +245,6 @@ class LaunchesNetClientTests: XCTestCase {
 }
 
 
-//MARK: - mockURLProtocol
-class MockURLProtocol: URLProtocol {
-    static var requestHandler: ((URLRequest) -> (Data?, HTTPURLResponse?, Error?))?
-    static var responseQueue: DispatchQueue?
-    
-    override class func canInit(with request: URLRequest) -> Bool { true }
-    
-    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
-    
-    override func startLoading() {
-        guard let handler = MockURLProtocol.requestHandler else {
-            XCTFail("MockUrlSession.RequestHandler is nil.")
-            return
-        }
-        if let queue = MockURLProtocol.responseQueue {
-            queue.async {
-                let (data, response, error) = handler(self.request)
-                self.produceResponse(data: data, response: response, error: error)
-            }
-        }
-        else {
-            let (data, response, error) = handler(request)
-            self.produceResponse(data: data, response: response, error: error)
-        }
-    }
-    
-    override func stopLoading() {}
-    
-    private func produceResponse(data: Data?, response: HTTPURLResponse?, error: Error?){
-        if let recievedData = data {
-            client?.urlProtocol(self, didLoad: recievedData)
-        }
-        if let recievedResponse = response {
-            client?.urlProtocol(self, didReceive: recievedResponse, cacheStoragePolicy: .notAllowed)
-        }
-        if let recievedError = error {
-            client?.urlProtocol(self, didFailWithError: recievedError)
-        }
-        client?.urlProtocolDidFinishLoading(self)
-    }
-    
-    static func givenDispatchQueue(){
-        MockURLProtocol.responseQueue = DispatchQueue(label: "com.SpaceXTests.MockUrlProtocol")
-    }
-}
 
 
 

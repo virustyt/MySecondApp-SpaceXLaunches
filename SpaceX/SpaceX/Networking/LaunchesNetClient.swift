@@ -7,8 +7,11 @@
 
 import Foundation
 
+protocol LaunchesNetProtocol{
+    func getAllRockets(complition: @escaping ([Rocket]?, Error?) -> ()) -> URLSessionDataTask?
+}
 
-class LaunchesNetClient {
+class LaunchesNetClient: LaunchesNetProtocol {
     enum SpaceXObject{
         case rockets
         case launches
@@ -34,8 +37,8 @@ class LaunchesNetClient {
         self.resopnseQueue = responseQueue
     }
     
-    func getAllRockets(complition: @escaping ([Rocket]?, Error?) -> ()){
-        guard let baseUrlForRockets = baseUrls[.rockets] else {return}
+    func getAllRockets(complition: @escaping ([Rocket]?, Error?) -> ()) -> URLSessionDataTask?{
+        guard let baseUrlForRockets = baseUrls[.rockets] else {return nil}
         let urlForRequest = URL(string: "rockets", relativeTo: baseUrlForRockets)!
         let dataTask = urlSession.dataTask(with: urlForRequest) { [weak self] data, response, error in
             guard let self = self else {return}
@@ -56,6 +59,7 @@ class LaunchesNetClient {
             }
         }
         dataTask.resume()
+        return dataTask
     }
     
     func dispatchResults<Type>(model: Type? = nil, error: Error? = nil, complitionHandler: @escaping (Type?,Error?) -> ()){
