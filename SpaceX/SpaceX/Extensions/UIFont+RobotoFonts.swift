@@ -10,4 +10,5 @@ import UIKit
 extension UIFont {
     static let forTitle = UIFont(name: "Roboto-Bold", size: 24)
     static let forBody = UIFont(name: "Roboto-Bold", size: 14)
+    static let forTabBarItems = UIFont(name: "Roboto-Medium", size: 10) ?? UIFont.systemFont(ofSize: 10)
 }
