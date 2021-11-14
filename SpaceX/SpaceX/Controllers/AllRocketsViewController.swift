@@ -10,6 +10,7 @@ import UIKit
 class AllRocketsViewController: UIViewController {
     
     var networkClient: LaunchesNetProtocol = LaunchesNetClient.shared
+    var imageClient: ImageClientProtocol = ImageClient.shared
     var dataTask: URLSessionDataTask?
     var tableView: UITableView?
     var tableViewController: UITableViewController?
@@ -19,7 +20,7 @@ class AllRocketsViewController: UIViewController {
     //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView = UITableView()
+        setUpTableView()
         setUpRefreshControl()
         tableView?.delegate = tableViewController
     }
@@ -45,5 +46,35 @@ class AllRocketsViewController: UIViewController {
         
         control.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         control.attributedTitle = NSAttributedString(string: "Loading...")
+    }
+    
+    private func setUpTableView(){
+        self.tableView = UITableView()
+        self.tableView?.register(RocketsTableViewCell.self, forCellReuseIdentifier: RocketsTableViewCell.identifyer)
+    }
+}
+
+extension AllRocketsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let neededCell = rocketCell(tableView: tableView, indexPath: indexPath)
+        return neededCell
+    }
+    
+    private func rocketCell(tableView: UITableView, indexPath: IndexPath) -> RocketsTableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: RocketsTableViewCell.identifyer) as! RocketsTableViewCell
+        let viewModel = viewModels[indexPath.item]
+        viewModel.setUpCell(cell: cell)
+        
+        if let urlForRocketImage = viewModel.flickrImages.first {
+            self.imageClient.setImage(on: cell.rocketImageView,
+                                      from: urlForRocketImage,
+                                      with: UIImage(named: "cat"),
+                                      complition: nil)
+        }
+        return cell
     }
 }

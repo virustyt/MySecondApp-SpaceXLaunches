@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84030B8C2741198A00B85CE5 /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84030B8B2741198A00B85CE5 /* LaunchesViewController.swift */; };
+		84030B8E2741199A00B85CE5 /* LaunchpadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84030B8D2741199A00B85CE5 /* LaunchpadsViewController.swift */; };
+		84030B90274121B000B85CE5 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84030B8F274121B000B85CE5 /* TabBarViewController.swift */; };
 		840D181F271ED91B00133AC1 /* LaunchPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D181E271ED91B00133AC1 /* LaunchPad.swift */; };
 		840D1821271EEF6400133AC1 /* Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1820271EEF6400133AC1 /* Rocket.swift */; };
 		84211408272C081900A96736 /* GET_Rockets_Response.json in Resources */ = {isa = PBXBuildFile; fileRef = 84211407272C081900A96736 /* GET_Rockets_Response.json */; };
 		8421140B272C0A6E00A96736 /* Data+JSONFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421140A272C0A6E00A96736 /* Data+JSONFile.swift */; };
 		8426B215272FFAA600D35D48 /* RocketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426B214272FFAA600D35D48 /* RocketViewModel.swift */; };
 		8426B218273050BA00D35D48 /* RocketViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8426B217273050BA00D35D48 /* RocketViewModelTests.swift */; };
+		8430736F273FAE73003B990E /* RootTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8430736E273FAE72003B990E /* RootTabBar.swift */; };
 		84357FF2272D5B7D00BB1BE6 /* GET_Rockets_MissingValuesResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84357FF1272D5B7D00BB1BE6 /* GET_Rockets_MissingValuesResponse.json */; };
 		84357FF5272D9E3F00BB1BE6 /* RocketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84357FF4272D9E3F00BB1BE6 /* RocketTests.swift */; };
 		84357FF9272D9EA800BB1BE6 /* DecodableTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84357FF8272D9EA800BB1BE6 /* DecodableTestCase.swift */; };
@@ -35,7 +39,7 @@
 		84C54F4B27216AB400C1CF9B /* LaunchesNetClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C54F4A27216AB400C1CF9B /* LaunchesNetClientTests.swift */; };
 		84C54F4E27216AED00C1CF9B /* LaunchesNetClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C54F4D27216AED00C1CF9B /* LaunchesNetClient.swift */; };
 		84EE88B4273D1B6900E4854B /* MockImageClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EE88B3273D1B6900E4854B /* MockImageClientProtocol.swift */; };
-		84EE88B8273D237E00E4854B /* AllRocketsableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EE88B7273D237E00E4854B /* AllRocketsableViewCell.swift */; };
+		84EE88B8273D237E00E4854B /* RocketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EE88B7273D237E00E4854B /* RocketsTableViewCell.swift */; };
 		84EE88CC273DB82A00E4854B /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84EE88BF273DB82500E4854B /* Roboto-BoldItalic.ttf */; };
 		84EE88CD273DB82A00E4854B /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84EE88BF273DB82500E4854B /* Roboto-BoldItalic.ttf */; };
 		84EE88CE273DB82A00E4854B /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84EE88BF273DB82500E4854B /* Roboto-BoldItalic.ttf */; };
@@ -113,12 +117,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		84030B8B2741198A00B85CE5 /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
+		84030B8D2741199A00B85CE5 /* LaunchpadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchpadsViewController.swift; sourceTree = "<group>"; };
+		84030B8F274121B000B85CE5 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		840D181E271ED91B00133AC1 /* LaunchPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPad.swift; sourceTree = "<group>"; };
 		840D1820271EEF6400133AC1 /* Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rocket.swift; sourceTree = "<group>"; };
 		84211407272C081900A96736 /* GET_Rockets_Response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GET_Rockets_Response.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.json; };
 		8421140A272C0A6E00A96736 /* Data+JSONFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+JSONFile.swift"; sourceTree = "<group>"; };
 		8426B214272FFAA600D35D48 /* RocketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewModel.swift; sourceTree = "<group>"; };
 		8426B217273050BA00D35D48 /* RocketViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewModelTests.swift; sourceTree = "<group>"; };
+		8430736E273FAE72003B990E /* RootTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBar.swift; sourceTree = "<group>"; };
 		84357FF1272D5B7D00BB1BE6 /* GET_Rockets_MissingValuesResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GET_Rockets_MissingValuesResponse.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.json; };
 		84357FF4272D9E3F00BB1BE6 /* RocketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketTests.swift; sourceTree = "<group>"; };
 		84357FF8272D9EA800BB1BE6 /* DecodableTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableTestCase.swift; sourceTree = "<group>"; };
@@ -141,7 +149,7 @@
 		84C54F4A27216AB400C1CF9B /* LaunchesNetClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesNetClientTests.swift; sourceTree = "<group>"; };
 		84C54F4D27216AED00C1CF9B /* LaunchesNetClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesNetClient.swift; sourceTree = "<group>"; };
 		84EE88B3273D1B6900E4854B /* MockImageClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockImageClientProtocol.swift; sourceTree = "<group>"; };
-		84EE88B7273D237E00E4854B /* AllRocketsableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllRocketsableViewCell.swift; sourceTree = "<group>"; };
+		84EE88B7273D237E00E4854B /* RocketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketsTableViewCell.swift; sourceTree = "<group>"; };
 		84EE88BF273DB82500E4854B /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
 		84EE88C0273DB82500E4854B /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		84EE88C1273DB82600E4854B /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
@@ -221,7 +229,11 @@
 		8426B212272FF56D00D35D48 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				84030B8F274121B000B85CE5 /* TabBarViewController.swift */,
 				8437808327327339001F28F3 /* AllRocketsViewController.swift */,
+				8430736E273FAE72003B990E /* RootTabBar.swift */,
+				84030B8B2741198A00B85CE5 /* LaunchesViewController.swift */,
+				84030B8D2741199A00B85CE5 /* LaunchpadsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -359,7 +371,7 @@
 		84EE88B6273D233D00E4854B /* AllRocketsTableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				84EE88B7273D237E00E4854B /* AllRocketsableViewCell.swift */,
+				84EE88B7273D237E00E4854B /* RocketsTableViewCell.swift */,
 			);
 			path = AllRocketsTableViewCells;
 			sourceTree = "<group>";
@@ -675,6 +687,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				840D181F271ED91B00133AC1 /* LaunchPad.swift in Sources */,
+				84030B8E2741199A00B85CE5 /* LaunchpadsViewController.swift in Sources */,
 				84F3A86D271C120800AF3CE6 /* AppDelegate.swift in Sources */,
 				84EE88F9273DBB1200E4854B /* UIColor+appTextsColors.swift in Sources */,
 				84C54F4E27216AED00C1CF9B /* LaunchesNetClient.swift in Sources */,
@@ -685,9 +698,12 @@
 				84F466012733F32B00F52E45 /* ImageClient.swift in Sources */,
 				840D1821271EEF6400133AC1 /* Rocket.swift in Sources */,
 				8458E5E927318A7400DA923D /* LaunchpadViewModel.swift in Sources */,
+				8430736F273FAE73003B990E /* RootTabBar.swift in Sources */,
+				84030B90274121B000B85CE5 /* TabBarViewController.swift in Sources */,
 				84F3A86F271C120800AF3CE6 /* SceneDelegate.swift in Sources */,
 				8458E5DD273147E200DA923D /* LaunchViewModel.swift in Sources */,
-				84EE88B8273D237E00E4854B /* AllRocketsableViewCell.swift in Sources */,
+				84EE88B8273D237E00E4854B /* RocketsTableViewCell.swift in Sources */,
+				84030B8C2741198A00B85CE5 /* LaunchesViewController.swift in Sources */,
 				8437808427327339001F28F3 /* AllRocketsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,6 +13,7 @@ class AllRocketsViewControllerTests: XCTestCase {
     var sut: AllRocketsViewController!
     var mockNetworkClient: MockLaunchesNetClient!
     var mockTableView: MockTableView!
+    var mockImageClient: MockImageClient!
     
     override func setUp() {
         super.setUp()
@@ -22,12 +23,18 @@ class AllRocketsViewControllerTests: XCTestCase {
     
     override func tearDown() {
         sut = nil
+        mockImageClient = nil
         super.tearDown()
     }
     
     func givenMockNetworkClient(){
         mockNetworkClient = MockLaunchesNetClient()
         sut.networkClient = mockNetworkClient
+    }
+    
+    func givenMockImageClient(){
+        mockImageClient = MockImageClient()
+        sut.imageClient = mockImageClient
     }
     
     func givenSomeRockets(count: Int = 3) -> [Rocket]{
@@ -82,14 +89,32 @@ class AllRocketsViewControllerTests: XCTestCase {
         return rockets
     }
     
+    func givenRocketViewModels(){
+        sut.viewModels = []
+        sut.viewModels = givenSomeRockets(count: 3).map {RocketViewModel(rocket: $0)}
+    }
+    
     func givenMockTableView(){
         mockTableView = MockTableView()
         sut.tableView = mockTableView
     }
     
+    @discardableResult
+    func whenDequeueFirstListingsCell()
+    -> RocketsTableViewCell? {
+        let indexPath = IndexPath(row: 0, section: 0)
+        return sut.tableView(sut.tableView!,
+                             cellForRowAt: indexPath)
+            as? RocketsTableViewCell
+    }
+    
     //MARK: - Instance property tests
     func test_AllRocketsViewController_setNetworkClient(){
         XCTAssert((sut.networkClient as? LaunchesNetClient) === LaunchesNetClient.shared)
+    }
+    
+    func test_AllRocketsViewController_setImageClient(){
+        XCTAssert((sut.imageClient as? ImageClient) === ImageClient.shared)
     }
     
     //MARK: - Refresh data tests
@@ -159,7 +184,36 @@ class AllRocketsViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.tableView!.refreshControl!.isRefreshing)
     }
     
+    func test_tableViewCellForRowAt_callsImageClientSetImageWithRocketImageView() {
+        // given
+        givenRocketViewModels()
+        givenMockImageClient()
+        // when
+        let cell = whenDequeueFirstListingsCell()
+        // then
+        XCTAssertEqual(mockImageClient.receivedImageView, cell?.rocketImageView)
+    }
     
+    func test_tableViewCellForRowAt_callsImageClientsetImageWithURL(){
+        //given
+        givenMockImageClient()
+        givenRocketViewModels()
+        let viewModel = sut.viewModels.first!
+        //when
+        _ = whenDequeueFirstListingsCell()
+        //then
+        XCTAssertEqual(mockImageClient.receivedURL, viewModel.flickrImages.first!)
+    }
+    
+    func test_tableViewCellForRowAt_callsImageClientsetImageWithPlaceholder(){
+        //given
+        givenMockImageClient()
+        givenRocketViewModels()
+        //when
+        _ = whenDequeueFirstListingsCell()
+        //then
+        XCTAssertEqual(mockImageClient.receivedPlaceholder, UIImage(named: "cat"))
+    }
 }
 
 

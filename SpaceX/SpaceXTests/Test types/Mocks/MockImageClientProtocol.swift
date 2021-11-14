@@ -9,7 +9,7 @@
 @testable import SpaceX
 import UIKit
 
-class MockImageService: ImageClientProtocol{
+class MockImageClient: ImageClientProtocol{
     
     var setImageCallCount = 0
     var receivedImageView: UIImageView!

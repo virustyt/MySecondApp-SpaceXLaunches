@@ -128,6 +128,10 @@ extension RocketViewModel {
             self.material = rocket.landingLegs.material
         }
     }
+    
+    func setUpCell(cell: RocketsTableViewCell){
+        
+    }
 }
 
 extension RocketViewModel: Equatable {

@@ -7,7 +7,9 @@
 
 import UIKit
 
-class AllRocketsableViewCell: UITableViewCell {
+class RocketsTableViewCell: UITableViewCell {
+    
+    static let identifyer: String = String(describing: self)
     
     var rocketImageView: UIImageView = {
         let imageView = UIImageView()
@@ -63,7 +65,6 @@ class AllRocketsableViewCell: UITableViewCell {
     }()
     
     private lazy var finalStack: UIStackView = {
-        rocketImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
         
         let stack = UIStackView(arrangedSubviews: [rocketImageView,summaryInfoStack])
         stack.axis = .vertical
@@ -84,6 +85,7 @@ class AllRocketsableViewCell: UITableViewCell {
     
     private func setUpConstraints(){
         contentView.addSubview(finalStack)
+        rocketImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: finalStack.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: finalStack.bottomAnchor),
