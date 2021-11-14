@@ -9,20 +9,20 @@ import Foundation
 
 // MARK: - Welcome
 struct Rocket: Codable, Equatable {
-    let height, diameter: MetersAndFeets
-    let mass: Mass
-    let firstStage: FirstStage
-    let secondStage: SecondStage
-    let engines: Engines
-    let landingLegs: LandingLegs
+    let height, diameter: MetersAndFeets?
+    let mass: Mass?
+    let firstStage: FirstStage?
+    let secondStage: SecondStage?
+    let engines: Engines?
+    let landingLegs: LandingLegs?
     let payloadWeights: [PayloadWeight]
-    let flickrImages: [String]
-    let name, type: String
-    let active: Bool
-    let stages, boosters, costPerLaunch, successRatePct: Int
-    let firstFlight, country, company: String
-    let wikipedia: String
-    let welcomeDescription, id: String
+    let flickrImages: [String]?
+    let name, type: String?
+    let active: Bool?
+    let stages, boosters, costPerLaunch, successRatePct: Int?
+    let firstFlight, country, company: String?
+    let wikipedia: String?
+    let welcomeDescription, id: String?
 
     enum CodingKeys: String, CodingKey {
         case height, diameter, mass
@@ -44,18 +44,18 @@ struct Rocket: Codable, Equatable {
 
 // MARK: - Diameter
 struct MetersAndFeets: Codable, Equatable {
-    let meters, feet: Double
+    let meters, feet: Double?
 }
 
 // MARK: - Engines
 struct Engines: Codable, Equatable {
-    let isp: ISP
-    let thrustSeaLevel, thrustVacuum: Thrust
-    let number: Int
-    let type, version, layout: String
-    let engineLossMax: Int
-    let propellant1, propellant2: String
-    let thrustToWeight: Double
+    let isp: ISP?
+    let thrustSeaLevel, thrustVacuum: Thrust?
+    let number: Double?
+    let type, version, layout: String?
+    let engineLossMax: Double?
+    let propellant1, propellant2: String?
+    let thrustToWeight: Double?
 
     enum CodingKeys: String, CodingKey {
         case isp
@@ -71,7 +71,7 @@ struct Engines: Codable, Equatable {
 
 // MARK: - ISP
 struct ISP: Codable, Equatable {
-    let seaLevel, vacuum: Int
+    let seaLevel, vacuum: Double?
 
     enum CodingKeys: String, CodingKey {
         case seaLevel = "sea_level"
@@ -81,14 +81,14 @@ struct ISP: Codable, Equatable {
 
 // MARK: - Thrust
 struct Thrust: Codable,Equatable {
-    let kN, lbf: Int
+    let kN, lbf: Double?
 }
 
 // MARK: - FirstStage
 struct FirstStage: Codable, Equatable {
-    let thrustSeaLevel, thrustVacuum: Thrust
-    let reusable: Bool
-    let engines, fuelAmountTons, burnTimeSEC: Int
+    let thrustSeaLevel, thrustVacuum: Thrust?
+    let reusable: Bool?
+    let engines, fuelAmountTons, burnTimeSEC: Double?
 
     enum CodingKeys: String, CodingKey {
         case thrustSeaLevel = "thrust_sea_level"
@@ -101,27 +101,27 @@ struct FirstStage: Codable, Equatable {
 
 // MARK: - LandingLegs
 struct LandingLegs: Codable, Equatable {
-    let number: Int
-    let material: String
+    let number: Double?
+    let material: String?
 }
 
 // MARK: - Mass
 struct Mass: Codable, Equatable {
-    let kg, lb: Int
+    let kg, lb: Int?
 }
 
 // MARK: - PayloadWeight
 struct PayloadWeight: Codable, Equatable {
-    let id, name: String
-    let kg, lb: Int
+    let id, name: String?
+    let kg, lb: Double?
 }
 
 // MARK: - SecondStage
 struct SecondStage: Codable, Equatable {
-    let thrust: Thrust
-    let payloads: Payloads
-    let reusable: Bool
-    let engines, fuelAmountTons, burnTimeSEC: Int
+    let thrust: Thrust?
+    let payloads: Payloads?
+    let reusable: Bool?
+    let engines, fuelAmountTons, burnTimeSEC: Double?
 
     enum CodingKeys: String, CodingKey {
         case thrust, payloads, reusable, engines
@@ -132,8 +132,8 @@ struct SecondStage: Codable, Equatable {
 
 // MARK: - Payloads
 struct Payloads: Codable, Equatable {
-    let compositeFairing: CompositeFairing
-    let option1: String
+    let compositeFairing: CompositeFairing?
+    let option1: String?
 
     enum CodingKeys: String, CodingKey {
         case compositeFairing = "composite_fairing"
@@ -143,6 +143,6 @@ struct Payloads: Codable, Equatable {
 
 // MARK: - CompositeFairing
 struct CompositeFairing: Codable, Equatable {
-    let height, diameter: MetersAndFeets
+    let height, diameter: MetersAndFeets?
 }
 

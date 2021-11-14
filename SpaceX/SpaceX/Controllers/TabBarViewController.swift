@@ -13,7 +13,6 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
         tabBar.tintColor = UIColor.coral
         tabBar.barTintColor = UIColor.queenBlue
-//        tabBar.unselectedItemTintColor = UIColor.champagne
         
         self.setViewControllers([createNavControllerWithTabBarItemForViewController(for: AllRocketsViewController(), tabBarImageName: "rockets"),
                                  createNavControllerWithTabBarItemForViewController(for: LaunchesViewController(), tabBarImageName: "launches"),

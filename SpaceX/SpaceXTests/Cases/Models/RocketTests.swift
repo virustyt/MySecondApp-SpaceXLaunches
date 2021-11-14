@@ -36,20 +36,20 @@ class RocketTests: XCTestCase, DecodableTestCase {
     //MARK: - Decodable tests
     func test_decodable_setHeight() throws {
         let givenHeight = try XCTUnwrap(dictionary["height"] as? Dictionary<String,Any?>)
-        try XCTassertEqualsToAny(sut.height.feet, givenHeight["feet"]!)
-        try XCTassertEqualsToAny(sut.height.meters, givenHeight["meters"]!)
+        try XCTassertEqualsToAny(sut.height?.feet, givenHeight["feet"]!)
+        try XCTassertEqualsToAny(sut.height?.meters, givenHeight["meters"]!)
     }
     
     func test_decodable_setDiameter() throws {
         let givenDiameter = try XCTUnwrap(dictionary["diameter"] as? Dictionary<String,Any?>)
-        try XCTassertEqualsToAny(sut.diameter.feet, givenDiameter["feet"]!)
-        try XCTassertEqualsToAny(sut.diameter.meters, givenDiameter["meters"]!)
+        try XCTassertEqualsToAny(sut.diameter?.feet, givenDiameter["feet"]!)
+        try XCTassertEqualsToAny(sut.diameter?.meters, givenDiameter["meters"]!)
     }
     
     func test_decodable_setMass() throws {
         let givenMass = try XCTUnwrap(dictionary["mass"] as? Dictionary<String,Any?>)
-        try XCTassertEqualsToAny(sut.mass.kg, givenMass["kg"]!)
-        try XCTassertEqualsToAny(sut.mass.lb, givenMass["lb"]!)
+        try XCTassertEqualsToAny(sut.mass?.kg, givenMass["kg"]!)
+        try XCTassertEqualsToAny(sut.mass?.lb, givenMass["lb"]!)
     }
     
     func test_decodable_setFirstStage() throws {
@@ -57,16 +57,16 @@ class RocketTests: XCTestCase, DecodableTestCase {
         let givenThrustSeaLevel = try XCTUnwrap(givenFirstStage["thrust_sea_level"] as? Dictionary<String,Any?>)
         let givenThrustVacuum = try XCTUnwrap(givenFirstStage["thrust_vacuum"] as? Dictionary<String,Any?>)
         
-        try XCTassertEqualsToAny(sut.firstStage.burnTimeSEC, givenFirstStage["burn_time_sec"]!)
-        try XCTassertEqualsToAny(sut.firstStage.engines, givenFirstStage["engines"]!)
-        try XCTassertEqualsToAny(sut.firstStage.fuelAmountTons, givenFirstStage["fuel_amount_tons"]!)
-        try XCTassertEqualsToAny(sut.firstStage.reusable, givenFirstStage["reusable"]!)
+        try XCTassertEqualsToAny(sut.firstStage?.burnTimeSEC, givenFirstStage["burn_time_sec"]!)
+        try XCTassertEqualsToAny(sut.firstStage?.engines, givenFirstStage["engines"]!)
+        try XCTassertEqualsToAny(sut.firstStage?.fuelAmountTons, givenFirstStage["fuel_amount_tons"]!)
+        try XCTassertEqualsToAny(sut.firstStage?.reusable, givenFirstStage["reusable"]!)
+            
+        try XCTassertEqualsToAny(sut.firstStage?.thrustSeaLevel?.kN, givenThrustSeaLevel["kN"]!)
+        try XCTassertEqualsToAny(sut.firstStage?.thrustSeaLevel?.lbf, givenThrustSeaLevel["lbf"]!)
         
-        try XCTassertEqualsToAny(sut.firstStage.thrustSeaLevel.kN, givenThrustSeaLevel["kN"]!)
-        try XCTassertEqualsToAny(sut.firstStage.thrustSeaLevel.lbf, givenThrustSeaLevel["lbf"]!)
-        
-        try XCTassertEqualsToAny(sut.firstStage.thrustVacuum.kN, givenThrustVacuum["kN"]!)
-        try XCTassertEqualsToAny(sut.firstStage.thrustVacuum.lbf, givenThrustVacuum["lbf"]!)
+        try XCTassertEqualsToAny(sut.firstStage?.thrustVacuum?.kN, givenThrustVacuum["kN"]!)
+        try XCTassertEqualsToAny(sut.firstStage?.thrustVacuum?.lbf, givenThrustVacuum["lbf"]!)
     }
     
     func test_decodable_setSecondStage() throws {
@@ -77,21 +77,21 @@ class RocketTests: XCTestCase, DecodableTestCase {
         let givenDiameter = try XCTUnwrap(givenCompositeFairing["diameter"] as? Dictionary<String,Any?>)
         let givenHeight = try XCTUnwrap(givenCompositeFairing["height"] as? Dictionary<String,Any?>)
         
-        try XCTassertEqualsToAny(sut.secondStage.burnTimeSEC, givenSecondStage["burn_time_sec"]!)
-        try XCTassertEqualsToAny(sut.secondStage.engines, givenSecondStage["engines"]!)
-        try XCTassertEqualsToAny(sut.secondStage.fuelAmountTons, givenSecondStage["fuel_amount_tons"]!)
-        try XCTassertEqualsToAny(sut.secondStage.reusable, givenSecondStage["reusable"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.burnTimeSEC, givenSecondStage["burn_time_sec"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.engines, givenSecondStage["engines"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.fuelAmountTons, givenSecondStage["fuel_amount_tons"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.reusable, givenSecondStage["reusable"]!)
+            
+        try XCTassertEqualsToAny(sut.secondStage?.thrust?.kN, givenThrust["kN"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.thrust?.lbf, givenThrust["lbf"]!)
         
-        try XCTassertEqualsToAny(sut.secondStage.thrust.kN, givenThrust["kN"]!)
-        try XCTassertEqualsToAny(sut.secondStage.thrust.lbf, givenThrust["lbf"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.payloads?.compositeFairing?.diameter?.feet, givenDiameter["feet"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.payloads?.compositeFairing?.diameter?.meters, givenDiameter["meters"]!)
+            
+        try XCTassertEqualsToAny(sut.secondStage?.payloads?.compositeFairing?.height?.feet, givenHeight["feet"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.payloads?.compositeFairing?.height?.meters, givenHeight["meters"]!)
         
-        try XCTassertEqualsToAny(sut.secondStage.payloads.compositeFairing.diameter.feet, givenDiameter["feet"]!)
-        try XCTassertEqualsToAny(sut.secondStage.payloads.compositeFairing.diameter.meters, givenDiameter["meters"]!)
-        
-        try XCTassertEqualsToAny(sut.secondStage.payloads.compositeFairing.height.feet, givenHeight["feet"]!)
-        try XCTassertEqualsToAny(sut.secondStage.payloads.compositeFairing.height.meters, givenHeight["meters"]!)
-        
-        try XCTassertEqualsToAny(sut.secondStage.payloads.option1, givenPayloads["option_1"]!)
+        try XCTassertEqualsToAny(sut.secondStage?.payloads?.option1, givenPayloads["option_1"]!)
     }
     
     func test_decodable_setEngines() throws {
@@ -100,28 +100,28 @@ class RocketTests: XCTestCase, DecodableTestCase {
         let givenThrustSeaLevel = try XCTUnwrap(givenEngines["thrust_sea_level"] as? Dictionary<String,Any?>)
         let givenThrustVacuum = try XCTUnwrap(givenEngines["thrust_vacuum"] as? Dictionary<String,Any?>)
         
-        try XCTassertEqualsToAny(sut.engines.engineLossMax, givenEngines["engine_loss_max"]!)
-        try XCTassertEqualsToAny(sut.engines.layout, givenEngines["layout"]!)
-        try XCTassertEqualsToAny(sut.engines.number, givenEngines["number"]!)
-        try XCTassertEqualsToAny(sut.engines.propellant1, givenEngines["propellant_1"]!)
-        try XCTassertEqualsToAny(sut.engines.propellant2, givenEngines["propellant_2"]!)
-        try XCTassertEqualsToAny(sut.engines.thrustToWeight, givenEngines["thrust_to_weight"]!)
+        try XCTassertEqualsToAny(sut.engines?.engineLossMax, givenEngines["engine_loss_max"]!)
+        try XCTassertEqualsToAny(sut.engines?.layout, givenEngines["layout"]!)
+        try XCTassertEqualsToAny(sut.engines?.number, givenEngines["number"]!)
+        try XCTassertEqualsToAny(sut.engines?.propellant1, givenEngines["propellant_1"]!)
+        try XCTassertEqualsToAny(sut.engines?.propellant2, givenEngines["propellant_2"]!)
+        try XCTassertEqualsToAny(sut.engines?.thrustToWeight, givenEngines["thrust_to_weight"]!)
+            
+        try XCTassertEqualsToAny(sut.engines?.isp?.seaLevel, givenIsp["sea_level"]!)
+        try XCTassertEqualsToAny(sut.engines?.isp?.vacuum, givenIsp["vacuum"]!)
         
-        try XCTassertEqualsToAny(sut.engines.isp.seaLevel, givenIsp["sea_level"]!)
-        try XCTassertEqualsToAny(sut.engines.isp.vacuum, givenIsp["vacuum"]!)
+        try XCTassertEqualsToAny(sut.engines?.thrustSeaLevel?.kN, givenThrustSeaLevel["kN"]!)
+        try XCTassertEqualsToAny(sut.engines?.thrustSeaLevel?.lbf, givenThrustSeaLevel["lbf"]!)
         
-        try XCTassertEqualsToAny(sut.engines.thrustSeaLevel.kN, givenThrustSeaLevel["kN"]!)
-        try XCTassertEqualsToAny(sut.engines.thrustSeaLevel.lbf, givenThrustSeaLevel["lbf"]!)
-        
-        try XCTassertEqualsToAny(sut.engines.thrustVacuum.kN, givenThrustVacuum["kN"]!)
-        try XCTassertEqualsToAny(sut.engines.thrustVacuum.lbf, givenThrustVacuum["lbf"]!)
+        try XCTassertEqualsToAny(sut.engines?.thrustVacuum?.kN, givenThrustVacuum["kN"]!)
+        try XCTassertEqualsToAny(sut.engines?.thrustVacuum?.lbf, givenThrustVacuum["lbf"]!)
         
     }
     func test_decodable_setLandinLegs() throws {
         let givenLandingLegs = try XCTUnwrap(dictionary["landing_legs"] as? Dictionary<String,Any?>)
         
-        try XCTassertEqualsToAny(sut.landingLegs.material, givenLandingLegs["material"]!)
-        try XCTassertEqualsToAny(sut.landingLegs.number, givenLandingLegs["number"]!)
+        try XCTassertEqualsToAny(sut.landingLegs?.material, givenLandingLegs["material"]!)
+        try XCTassertEqualsToAny(sut.landingLegs?.number, givenLandingLegs["number"]!)
     }
     
     func test_decodable_setPayloadWeights() throws {

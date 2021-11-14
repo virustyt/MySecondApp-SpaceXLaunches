@@ -40,7 +40,10 @@ class LaunchesNetClient: LaunchesNetProtocol {
     func getAllRockets(complition: @escaping ([Rocket]?, Error?) -> ()) -> URLSessionDataTask?{
         guard let baseUrlForRockets = baseUrls[.rockets] else {return nil}
         let urlForRequest = URL(string: "rockets", relativeTo: baseUrlForRockets)!
-        let dataTask = urlSession.dataTask(with: urlForRequest) { [weak self] data, response, error in
+        var request = URLRequest(url: urlForRequest)
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpMethod = "GET"
+        let dataTask = urlSession.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else {return}
             guard let httpResponse = response as? HTTPURLResponse,
                   200...299 ~= httpResponse.statusCode,
@@ -69,6 +72,18 @@ class LaunchesNetClient: LaunchesNetProtocol {
             return
         }
         responseQueue.async { complitionHandler(model,error) }
+    }
+    
+    func jsonToString(json: AnyObject) -> String{
+        do {
+            let data1 = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
+            let convertedString = String(data: data1, encoding: String.Encoding.utf8) as NSString? ?? ""
+            debugPrint(convertedString)
+            return convertedString as String
+        } catch let myJSONError {
+            debugPrint(myJSONError)
+            return ""
+        }
     }
 }
 

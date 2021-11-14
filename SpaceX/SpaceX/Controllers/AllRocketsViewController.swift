@@ -23,6 +23,7 @@ class AllRocketsViewController: UIViewController {
         setUpTableView()
         setUpRefreshControl()
         tableView?.delegate = tableViewController
+        setUpConstraints()
     }
 
     //MARK: - public functions
@@ -50,7 +51,19 @@ class AllRocketsViewController: UIViewController {
     
     private func setUpTableView(){
         self.tableView = UITableView()
+        tableView?.translatesAutoresizingMaskIntoConstraints = false
         self.tableView?.register(RocketsTableViewCell.self, forCellReuseIdentifier: RocketsTableViewCell.identifyer)
+    }
+    
+    private func setUpConstraints(){
+        guard let nonNilTableView = tableView else {return}
+        self.view.addSubview(nonNilTableView)
+        NSLayoutConstraint.activate([
+            nonNilTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            nonNilTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            nonNilTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nonNilTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 }
 
