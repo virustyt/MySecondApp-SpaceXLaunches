@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MockTableView: UITableView{
+class MockCollectionViewView: UICollectionView{
     var reloadDataCalled = false
     override func reloadData() {
         reloadDataCalled = true

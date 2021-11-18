@@ -40,10 +40,8 @@ class LaunchesNetClient: LaunchesNetProtocol {
     func getAllRockets(complition: @escaping ([Rocket]?, Error?) -> ()) -> URLSessionDataTask?{
         guard let baseUrlForRockets = baseUrls[.rockets] else {return nil}
         let urlForRequest = URL(string: "rockets", relativeTo: baseUrlForRockets)!
-        var request = URLRequest(url: urlForRequest)
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.httpMethod = "GET"
-        let dataTask = urlSession.dataTask(with: request) { [weak self] data, response, error in
+        
+        let dataTask = urlSession.dataTask(with: urlForRequest) { [weak self] data, response, error in
             guard let self = self else {return}
             guard let httpResponse = response as? HTTPURLResponse,
                   200...299 ~= httpResponse.statusCode,

@@ -136,8 +136,11 @@ extension RocketViewModel {
         }
     }
     
-    func setUpCell(cell: RocketsTableViewCell){
-        
+    func setUpCell(cell: RocketsCollectionViewCell){
+        cell.firstLaunchValueLabel.text = self.firstFlight
+        cell.localCostValueLabel.text = self.costPerLaunch
+        cell.rocketNameValueLabel.text = self.name
+        cell.sucsessPrecentsValueLabel.text = self.successRatePct
     }
 }
 

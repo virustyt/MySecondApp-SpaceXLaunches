@@ -10,14 +10,14 @@ import XCTest
 
 class AllRocketsViewControllerTests: XCTestCase {
 
-    var sut: AllRocketsViewController!
+    var sut: RocketsViewController!
     var mockNetworkClient: MockLaunchesNetClient!
-    var mockTableView: MockTableView!
+    var mockCollectionView: MockCollectionViewView!
     var mockImageClient: MockImageClient!
     
     override func setUp() {
         super.setUp()
-        sut = AllRocketsViewController()
+        sut = RocketsViewController()
         sut.viewDidLoad()
     }
     
@@ -43,7 +43,7 @@ class AllRocketsViewControllerTests: XCTestCase {
             let rocket = Rocket(height: MetersAndFeets(meters: Double(i * 8), feet: Double(i * 18)),
                                 diameter: MetersAndFeets(meters: Double(i * 67), feet: Double(i * 134)),
                                 mass: Mass(kg: i * 300, lb: i * 430),
-                                firstStage: FirstStage(thrustSeaLevel: Thrust(kN: Double(i) * 56, lbf: Double(i) * 12),
+                                firstStage: FirstStage(thrustSeaLevel: Thrust(kN: Double(i) * 56.0, lbf: Double(i) * 12.0),
                                                        thrustVacuum: Thrust(kN: Double(i) * 39, lbf: Double(i) * 86),
                                                        reusable: true,
                                                        engines: Double(i) * 4,
@@ -95,17 +95,15 @@ class AllRocketsViewControllerTests: XCTestCase {
     }
     
     func givenMockTableView(){
-        mockTableView = MockTableView()
-        sut.tableView = mockTableView
+        mockCollectionView = MockCollectionViewView()
+        sut.rocketsCollectionView = mockCollectionView
     }
     
     @discardableResult
     func whenDequeueFirstListingsCell()
-    -> RocketsTableViewCell? {
+    -> RocketsCollectionViewCell? {
         let indexPath = IndexPath(row: 0, section: 0)
-        return sut.tableView(sut.tableView!,
-                             cellForRowAt: indexPath)
-            as? RocketsTableViewCell
+        return sut.collectionView(sut.rocketsCollectionView!, cellForItemAt: indexPath) as? RocketsCollectionViewCell
     }
     
     //MARK: - Instance property tests
@@ -159,7 +157,7 @@ class AllRocketsViewControllerTests: XCTestCase {
         sut.refreshData()
         mockNetworkClient.complition(rockets,nil)
         //then
-        XCTAssert(mockTableView.reloadDataCalled)
+        XCTAssert(mockCollectionView.reloadDataCalled)
     }
     
     func test_refreshControl_beginsRefreshing(){
@@ -168,9 +166,9 @@ class AllRocketsViewControllerTests: XCTestCase {
         //when
         sut.refreshData()
         //then
-        XCTAssertNotNil(sut.tableView)
-        XCTAssertNotNil(sut.tableView!.refreshControl)
-        XCTAssert(sut.tableView!.refreshControl!.isRefreshing)
+        XCTAssertNotNil(sut.rocketsCollectionView)
+        XCTAssertNotNil(sut.rocketsCollectionView?.refreshControl)
+        XCTAssert(sut.rocketsCollectionView!.refreshControl!.isRefreshing)
     }
     
     func test_refreshData_givenRocketsResponse_endsRefreshing(){
@@ -181,7 +179,7 @@ class AllRocketsViewControllerTests: XCTestCase {
         sut.refreshData()
         mockNetworkClient.complition(rockets, nil)
         //then
-        XCTAssertFalse(sut.tableView!.refreshControl!.isRefreshing)
+        XCTAssertFalse(sut.rocketsCollectionView!.refreshControl!.isRefreshing)
     }
     
     func test_tableViewCellForRowAt_callsImageClientSetImageWithRocketImageView() {

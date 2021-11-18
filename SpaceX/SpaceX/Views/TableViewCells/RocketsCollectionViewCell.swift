@@ -7,13 +7,15 @@
 
 import UIKit
 
-class RocketsTableViewCell: UITableViewCell {
+class RocketsCollectionViewCell: UICollectionViewCell {
     
     static let identifyer: String = String(describing: self)
     
-    var rocketImageView: UIImageView = {
+    lazy var rocketImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -53,44 +55,52 @@ class RocketsTableViewCell: UITableViewCell {
         
         let rocketInfoStack = UIStackView(arrangedSubviews: [firstLaunchStack,localCostStack,sucsessPrecentsStack])
         rocketInfoStack.axis = .horizontal
-        rocketInfoStack.distribution = .fillEqually
+        rocketInfoStack.distribution = .equalSpacing
+        rocketInfoStack.spacing = 10
         
         let summaryStack = UIStackView(arrangedSubviews: [rocketNameValueLabel,rocketInfoStack])
         summaryStack.axis = .vertical
         summaryStack.alignment = .leading
         summaryStack.distribution = .equalSpacing
-        summaryStack.spacing = 27
+        summaryStack.spacing = 5
+        
+        summaryStack.translatesAutoresizingMaskIntoConstraints = false
         
         return summaryStack
     }()
     
-    private lazy var finalStack: UIStackView = {
-        
-        let stack = UIStackView(arrangedSubviews: [rocketImageView,summaryInfoStack])
-        stack.axis = .vertical
-        stack.distribution = .equalSpacing
-        stack.spacing = 10
-        stack.alignment = .fill
-        return stack
-    }()
-
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setUpConstraints()
+        setUpShadows()
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 20
+        contentView.layer.masksToBounds = true
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setUpShadows(){
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 6
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.37
+    }
+    
     private func setUpConstraints(){
-        contentView.addSubview(finalStack)
-        rocketImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        contentView.addSubview(rocketImageView)
+        contentView.addSubview(summaryInfoStack)
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: finalStack.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: finalStack.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: finalStack.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: finalStack.trailingAnchor)
+            rocketImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            rocketImageView.heightAnchor.constraint(equalToConstant: 244),
+            rocketImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            rocketImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            summaryInfoStack.topAnchor.constraint(equalTo: rocketImageView.bottomAnchor, constant: 10),
+            summaryInfoStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
+            summaryInfoStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -59),
+            summaryInfoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -21)
         ])
     }
 }
