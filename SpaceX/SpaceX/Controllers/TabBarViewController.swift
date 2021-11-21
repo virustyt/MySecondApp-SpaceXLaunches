@@ -8,7 +8,7 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBar.tintColor = UIColor.coral
@@ -21,7 +21,8 @@ class TabBarViewController: UITabBarController {
     }
     
     private func createNavControllerWithTabBarItemForViewController(for viewController: UIViewController, tabBarImageName: String) -> UINavigationController{
-        let navController = UINavigationController(rootViewController: viewController)
+
+        let navController = SpaceXNavigationController(rootViewController: viewController)
         
         navController.navigationBar.barTintColor = UIColor.queenBlue
         navController.tabBarItem.title = tabBarImageName

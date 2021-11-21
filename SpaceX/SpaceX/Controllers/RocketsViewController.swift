@@ -24,7 +24,7 @@ class RocketsViewController: UIViewController {
         setUpRefreshControl()
         setUpConstraints()
         setUpNavigationItem()
-//        refreshData()
+        refreshData()
     }
 
 
@@ -39,7 +39,6 @@ class RocketsViewController: UIViewController {
             
             self?.rocketsCollectionView?.refreshControl?.endRefreshing()
         })
-        
     }
     
     //MARK: - private functions
@@ -59,8 +58,6 @@ class RocketsViewController: UIViewController {
         rocketsCollectionView?.register(RocketsCollectionViewCell.self, forCellWithReuseIdentifier: RocketsCollectionViewCell.identifyer)
         rocketsCollectionView?.backgroundColor = UIColor.queenBlue
     }
-    
-    
     
     private func setUpConstraints(){
         guard let collectionViewWithRockets = rocketsCollectionView else {return}
@@ -120,6 +117,20 @@ extension RocketsViewController: UICollectionViewDelegateFlowLayout {
                           height: (smallestViewSide - minInteritemSpacing * 2) * 0.9)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let viewModelOfSelectedCell = viewModels[indexPath.item]
+        let detailsVC = RocketDetailViewController(for: viewModelOfSelectedCell)
+        detailsVC.modalPresentationStyle = .overCurrentContext
+        
+        detailsVC.hidesBottomBarWhenPushed = true
+
+        navigationItem.backBarButtonItem = UIBarButtonItem(image: nil,
+                                                           style: .done,
+                                                                     target: nil,
+                                                                     action: nil)
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
 }
 
 
@@ -142,9 +153,10 @@ extension RocketsViewController: UICollectionViewDataSource{
         if let urlForRocketImage = viewModel.flickrImages.first {
             self.imageClient.setImage(on: cell.rocketImageView,
                                       from: urlForRocketImage,
-                                      with: UIImage(named: "logo"),
+                                      with: UIImage.cellPlaceholderImage,
                                       complition: nil)
         }
         return cell
     }
 }
+

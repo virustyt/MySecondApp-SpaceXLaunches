@@ -18,7 +18,7 @@ protocol ImageClientProtocol{
 
 class ImageClient {
     var cashedImages: [URL: UIImage]
-    var cashedDataTasks: [UIImageView: URLSessionDataTask]
+    var cashedDataTasks: [URL: URLSessionDataTask]
     
     var urlSession: URLSession
     var responseQueue: DispatchQueue?
@@ -56,12 +56,12 @@ extension ImageClient: ImageClientProtocol{
     }
     
     func setImage(on imageView: UIImageView, from imageURL: URL, with placeholder: UIImage?, complition: ((UIImage?, Error?)-> ())? = nil) {
-        cashedDataTasks[imageView]?.cancel()
+        cashedDataTasks[imageURL]?.cancel()
         imageView.image = placeholder
-        cashedDataTasks[imageView] = downloadImages(imageURL: imageURL,
+        cashedDataTasks[imageURL] = downloadImages(imageURL: imageURL,
                                                     complition: {[weak self] image, error in
                                                         guard let self = self else {return}
-                                                        self.cashedDataTasks[imageView] = nil
+                                                        self.cashedDataTasks[imageURL] = nil
                                                         if let notNilImage = image {imageView.image = notNilImage}
                                                         guard complition != nil else { return }
                                                         complition!(image, error)

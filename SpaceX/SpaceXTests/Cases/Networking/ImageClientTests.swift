@@ -237,7 +237,7 @@ class ImageClientTests: XCTestCase {
         //given
         givenExpectedImage()
         let givenDataTask = mockURLSession.dataTask(with: dummyURL)
-        sut.cashedDataTasks[givenImageView] = givenDataTask
+        sut.cashedDataTasks[dummyURL] = givenDataTask
         //when
         sut.setImage(on: givenImageView, from: dummyURL, with: nil)
         //then
@@ -260,14 +260,14 @@ class ImageClientTests: XCTestCase {
         sut.setImage(on: givenImageView, from: dummyURL, with: nil, complition: {[weak self] _,_ in
                         guard let self = self else {XCTFail();return}
                         //then
-                        XCTAssertNotNil(self.sut.cashedDataTasks[self.givenImageView])})
+                        XCTAssertNotNil(self.sut.cashedDataTasks[self.dummyURL])})
     }
     
     func test_setImage_onComplitionRemovesCashedDataTask(){
         //when
         whenSetImageWithGivenResponse()
         //then
-        XCTAssertNil(sut.cashedDataTasks[givenImageView])
+        XCTAssertNil(sut.cashedDataTasks[dummyURL])
     }
     
     func test_setImage_onComplitionSetsImage(){
