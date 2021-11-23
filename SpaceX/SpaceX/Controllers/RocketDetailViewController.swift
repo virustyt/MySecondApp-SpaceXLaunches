@@ -26,13 +26,17 @@ class RocketDetailViewController: UIViewController {
 
     lazy var rocketImage: UIImageView = {
 //        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 0.8))
-        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 400, height: 300))
+//        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 400, height: 300))
+        let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         guard let urlForFirstRocketImage = rocketViewModel.flickrImages.first else { return image }
         ImageClient.shared.setImage(on: image, from: urlForFirstRocketImage, with: UIImage.cellPlaceholderImage)
         return image
     }()
+    
+    private lazy var rocketImageViewWidthConstraint: NSLayoutConstraint = rocketImage.widthAnchor.constraint(equalToConstant:  view.frame.width)
+    private lazy var rocketImageViewHeightConstraint: NSLayoutConstraint = rocketImage.heightAnchor.constraint(equalToConstant: view.frame.width * 0.8)
     
     private lazy var rocketNameLabel: UILabel = {
         let label = UILabel()
@@ -255,8 +259,14 @@ class RocketDetailViewController: UIViewController {
     }
     
     //MARK: - life cycle
+    override func loadView() {
+        super.loadView()
+        print(#function,rocketImage.frame)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(#function,rocketImage.frame)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -271,11 +281,26 @@ class RocketDetailViewController: UIViewController {
         navigationItem.standardAppearance = appearance
         
         setNeedsStatusBarAppearanceUpdate()
+        
+        print("\n---viewWillAppear. Frame: ",rocketImage.frame)
+    }
+    
+    var i = 0
+    var g = 0
+    override func viewWillLayoutSubviews() {
+        print("\n\(i). viewWillLayoutSubviews. Frame: \(rocketImage.frame).")
     }
     
     override func viewDidLayoutSubviews() {
         setUpConstraints()
-//        print(rocketImage.frame)
+        print("\(i). viewDidLayoutSubviews.  Frame: \(rocketImage.frame).")
+        i += 1
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("\n---viewDidAppear. Frame: \(rocketImage.frame).")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -323,6 +348,9 @@ class RocketDetailViewController: UIViewController {
             rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top),
             rocketImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            
+//            rocketImageViewWidthConstraint,
+            rocketImageViewHeightConstraint,
             
             topSummaryStack.topAnchor.constraint(equalTo: rocketImage.bottomAnchor,constant: 40),
             topSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
