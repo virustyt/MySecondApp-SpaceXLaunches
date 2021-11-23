@@ -13,6 +13,8 @@ class RocketsViewController: UIViewController {
     var imageClient: ImageClientProtocol = ImageClient.shared
     var dataTask: URLSessionDataTask?
     var rocketsCollectionView: UICollectionView?
+    private var popAnimator = AnimatorViewController()
+    var selectedCell: RocketsCollectionViewCell?
     
     var viewModels: [RocketViewModel] = []
     
@@ -20,6 +22,7 @@ class RocketsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .queenBlue
+        navigationController?.delegate = self
         setUpCollectionView()
         setUpRefreshControl()
         setUpConstraints()
@@ -119,10 +122,11 @@ extension RocketsViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedCell = collectionView.cellForItem(at: indexPath) as? RocketsCollectionViewCell
+        
         let viewModelOfSelectedCell = viewModels[indexPath.item]
         let detailsVC = RocketDetailViewController(for: viewModelOfSelectedCell)
-        detailsVC.modalPresentationStyle = .overCurrentContext
-        
+
         detailsVC.hidesBottomBarWhenPushed = true
 
         navigationItem.backBarButtonItem = UIBarButtonItem(image: nil,
@@ -160,3 +164,22 @@ extension RocketsViewController: UICollectionViewDataSource{
     }
 }
 
+
+//MARK: - UINavigationControllerDelegate
+extension RocketsViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .pop:
+            popAnimator.presenting = false
+        case .push:
+            selectedCell?.alpha = 0
+            if let cellsFrame = selectedCell?.rocketImageView.frame {
+                popAnimator.originFrame =  selectedCell?.convert(cellsFrame, to: UIScreen.main.coordinateSpace)
+            }
+            popAnimator.presenting = true
+        default:
+            break
+        }
+        return popAnimator
+    }
+}

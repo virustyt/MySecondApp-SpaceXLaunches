@@ -261,8 +261,8 @@
 				84030B8B2741198A00B85CE5 /* LaunchesViewController.swift */,
 				84030B8D2741199A00B85CE5 /* LaunchpadsViewController.swift */,
 				8416C0842744ED9300E42C04 /* SortViewController.swift */,
-				84881E9A274682130038C086 /* AnimatorViewController.swift */,
 				84881E9C2746839A0038C086 /* RocketDetailViewController.swift */,
+				84881E9A274682130038C086 /* AnimatorViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

@@ -24,8 +24,9 @@ class RocketDetailViewController: UIViewController {
         return arrrayOfImages
     }()
 
-    private lazy var rocketImage: UIImageView = {
-        let image = UIImageView()
+    lazy var rocketImage: UIImageView = {
+//        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 0.8))
+        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 400, height: 300))
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         guard let urlForFirstRocketImage = rocketViewModel.flickrImages.first else { return image }
@@ -274,6 +275,7 @@ class RocketDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         setUpConstraints()
+//        print(rocketImage.frame)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -285,6 +287,7 @@ class RocketDetailViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
+//        print(rocketImage.frame)
     }
     
     //MARK: - inits
@@ -309,10 +312,7 @@ class RocketDetailViewController: UIViewController {
         rocketImage.addSubview(rocketNameLabel)
         
         NSLayoutConstraint.activate([
-//            scrollView.topAnchor.constraint(equalTo:  view.topAnchor ),
-            scrollView.topAnchor.constraint(equalTo:  view.topAnchor,constant: -view.safeAreaInsets.top ),
-//            scrollView.topAnchor.constraint(equalTo: view.topAnchor,
-//                                            constant: -(  view.frame.height - view.safeAreaLayoutGuide.layoutFrame.height) ),
+            scrollView.topAnchor.constraint(equalTo:  view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -320,12 +320,9 @@ class RocketDetailViewController: UIViewController {
             rocketNameLabel.bottomAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: -30),
             rocketNameLabel.leadingAnchor.constraint(equalTo: rocketImage.leadingAnchor, constant: 20),
             
-            rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top),
             rocketImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            
-            rocketImage.widthAnchor.constraint(equalToConstant: view.frame.width),
-            rocketImage.heightAnchor.constraint(equalTo: rocketImage.widthAnchor, multiplier: 0.8),
             
             topSummaryStack.topAnchor.constraint(equalTo: rocketImage.bottomAnchor,constant: 40),
             topSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
