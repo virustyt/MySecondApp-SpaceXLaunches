@@ -25,18 +25,14 @@ class RocketDetailViewController: UIViewController {
     }()
 
     lazy var rocketImage: UIImageView = {
-//        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 0.8))
-//        let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 400, height: 300))
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         guard let urlForFirstRocketImage = rocketViewModel.flickrImages.first else { return image }
         ImageClient.shared.setImage(on: image, from: urlForFirstRocketImage, with: UIImage.cellPlaceholderImage)
         return image
     }()
-    
-    private lazy var rocketImageViewWidthConstraint: NSLayoutConstraint = rocketImage.widthAnchor.constraint(equalToConstant:  view.frame.width)
-    private lazy var rocketImageViewHeightConstraint: NSLayoutConstraint = rocketImage.heightAnchor.constraint(equalToConstant: view.frame.width * 0.8)
     
     private lazy var rocketNameLabel: UILabel = {
         let label = UILabel()
@@ -254,9 +250,21 @@ class RocketDetailViewController: UIViewController {
         return stack
     }()
     
+    lazy var containerView: UIView = {
+       let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override var prefersStatusBarHidden: Bool {
         true
     }
+    
+    //MARK: - constraints
+    lazy var rocketImageViewWidthConstraint: NSLayoutConstraint = rocketImage.widthAnchor.constraint(equalToConstant:  view.frame.width)
+    lazy var rocketImageViewHeightConstraint: NSLayoutConstraint = rocketImage.heightAnchor.constraint(equalToConstant: view.frame.width * 0.8)
+    lazy var rocketImageViewTopConstraint: NSLayoutConstraint = rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top)
+    
     
     //MARK: - life cycle
     override func loadView() {
@@ -312,7 +320,6 @@ class RocketDetailViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
-//        print(rocketImage.frame)
     }
     
     //MARK: - inits
@@ -329,10 +336,15 @@ class RocketDetailViewController: UIViewController {
     private func setUpConstraints(){
         view.addSubview(scrollView)
 
+//        scrollView.addSubview(topSummaryStack)
+//        scrollView.addSubview(ImagesStack)
+//        scrollView.addSubview(bottomSummaryStack)
         scrollView.addSubview(rocketImage)
-        scrollView.addSubview(topSummaryStack)
-        scrollView.addSubview(ImagesStack)
-        scrollView.addSubview(bottomSummaryStack)
+        scrollView.addSubview(containerView)
+        
+        containerView.addSubview(topSummaryStack)
+        containerView.addSubview(ImagesStack)
+        containerView.addSubview(bottomSummaryStack)
         
         rocketImage.addSubview(rocketNameLabel)
         
@@ -345,25 +357,44 @@ class RocketDetailViewController: UIViewController {
             rocketNameLabel.bottomAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: -30),
             rocketNameLabel.leadingAnchor.constraint(equalTo: rocketImage.leadingAnchor, constant: 20),
             
-            rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top),
+//            rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top),
+            rocketImageViewTopConstraint,
             rocketImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             
-//            rocketImageViewWidthConstraint,
+            rocketImageViewWidthConstraint,
             rocketImageViewHeightConstraint,
             
-            topSummaryStack.topAnchor.constraint(equalTo: rocketImage.bottomAnchor,constant: 40),
-            topSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-            topSummaryStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -30),
+            containerView.topAnchor.constraint(equalTo: rocketImage.bottomAnchor,constant: 40),
+            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            topSummaryStack.topAnchor.constraint(equalTo: containerView.topAnchor),
+            topSummaryStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            topSummaryStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
             topSummaryStack.bottomAnchor.constraint(equalTo: ImagesStack.topAnchor,constant: -30),
             
-            ImagesStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            ImagesStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            ImagesStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            ImagesStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             
             bottomSummaryStack.topAnchor.constraint(equalTo: ImagesStack.bottomAnchor,constant: 40),
-            bottomSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-            bottomSummaryStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -30),
-            bottomSummaryStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,constant: -25)
+            bottomSummaryStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            bottomSummaryStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            bottomSummaryStack.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -25)
+            
+//            topSummaryStack.topAnchor.constraint(equalTo: rocketImage.bottomAnchor,constant: 40),
+//            topSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+//            topSummaryStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -30),
+//            topSummaryStack.bottomAnchor.constraint(equalTo: ImagesStack.topAnchor,constant: -30),
+//
+//            ImagesStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+//            ImagesStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+//
+//            bottomSummaryStack.topAnchor.constraint(equalTo: ImagesStack.bottomAnchor,constant: 40),
+//            bottomSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+//            bottomSummaryStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -30),
+//            bottomSummaryStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,constant: -25)
         ])
     }
     

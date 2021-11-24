@@ -173,8 +173,11 @@ extension RocketsViewController: UINavigationControllerDelegate {
             popAnimator.presenting = false
         case .push:
             selectedCell?.alpha = 0
-            if let cellsImageFrame = selectedCell?.rocketImageView.frame {
-                popAnimator.originFrame =  selectedCell?.convert(cellsImageFrame, to: UIScreen.main.coordinateSpace)
+//            if let cellsImageFrame = selectedCell?.rocketImageView.frame {
+//                popAnimator.originFrame =  selectedCell?.convert(cellsImageFrame, to: UIScreen.main.coordinateSpace)
+//            }
+            if let cellsFrame = selectedCell?.frame {
+                popAnimator.originFrame =  rocketsCollectionView?.convert(cellsFrame, to: UIScreen.main.coordinateSpace)
             }
             popAnimator.presenting = true
         default:

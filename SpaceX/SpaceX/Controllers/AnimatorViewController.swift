@@ -20,63 +20,82 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        //set up start state
-        guard let detailImageViewController = transitionContext.viewController(forKey: presenting ? .to : .from) as? RocketDetailViewController
+        //setUp
+        let containerView = transitionContext.containerView
+
+        guard let detailsViewController = transitionContext.viewController(forKey: presenting ? .to : .from) as? RocketDetailViewController,
+              let detailsView = detailsViewController.view,
+              let allRocketsViewController = transitionContext.viewController(forKey: presenting ? .from : .to) as? RocketsViewController,
+              let selectedCell = allRocketsViewController.selectedCell,
+              let allRocketsView = transitionContext.view(forKey: presenting ? .from : .to)
         else { return }
         
-        print(1)
-        
-        let detailImageView = detailImageViewController.rocketImage // <- RocketImageView
-        print(2)
-        guard let mainImageViewOriginFrame = originFrame // <- place of cell with the same image in all rockets collectionView
+        containerView.addSubview(presenting ? detailsView : allRocketsView)
+        containerView.bringSubviewToFront(detailsView)
+        containerView.layoutIfNeeded()
+
+        guard let cellOriginFrame = originFrame 
         else { return }
         
-//        let (initialFrame, finalFrame) = presenting ? (mainImageViewOriginFrame, detailImageView.frame) : (detailImageView.frame, mainImageViewOriginFrame)
-        let detailImageFrame = CGRect(x: 0,
-                                      y: 0,
-                                      width: UIScreen.main.bounds.width,
-                                      height: UIScreen.main.bounds.width * 0.8)
-        let (initialFrame, finalFrame) = presenting ? (mainImageViewOriginFrame, detailImageFrame) : (detailImageFrame, mainImageViewOriginFrame)
+        let heightToWidthCellRatio:CGFloat = selectedCell.frame.height / selectedCell.frame.width
+        let viewLikeCellFinalFrame = CGRect(x: 0,
+                                            y: 0,
+                                            width: detailsView.frame.width,
+                                            height: detailsView.frame.width * heightToWidthCellRatio)
         
-//        let detailsImageScale = CGFloat( 0.5 ) //presenting ? initialFrame.width / finalFrame.width : finalFrame.width / initialFrame.width
-        
-        let detailsImageScaleX = presenting ? initialFrame.width / finalFrame.width : finalFrame.width / initialFrame.width
-        let detailsImageScaleY = presenting ? initialFrame.height / finalFrame.height : finalFrame.height / initialFrame.height
-        let detailsViewScaleTransform: CGAffineTransform = .init(scaleX: detailsImageScaleX,
-                                                                 y: detailsImageScaleY)
+        let (initialFrame, finalFrame) = presenting ? (cellOriginFrame, viewLikeCellFinalFrame) : (viewLikeCellFinalFrame, cellOriginFrame)
+
+        let detailsViewScaleX: CGFloat =  presenting ? initialFrame.width / finalFrame.width : finalFrame.width / initialFrame.width
+        let detailsViewScaleY: CGFloat = presenting ? initialFrame.height / finalFrame.height : finalFrame.height / initialFrame.height
+        let detailsViewScaleTransform: CGAffineTransform = .init(scaleX: detailsViewScaleX,
+                                                                 y: detailsViewScaleY)
+
+        let detailsViewHeight = detailsView.frame.height
+        let finalImageHeight = detailsViewController.rocketImageViewHeightConstraint.constant
+
+        detailsView.frame.size = presenting ? finalFrame.size : initialFrame.size
+        detailsView.clipsToBounds = true
         
         if presenting {
-            detailImageView.transform  = detailsViewScaleTransform
-//            detailImageView.frame.origin = initialFrame.origin
-            detailImageView.center = CGPoint(x: initialFrame.midX,
-                                             y: initialFrame.midY)
+            detailsViewController.containerView.alpha = 0
+            detailsViewController.rocketImageViewHeightConstraint.constant = selectedCell.rocketImageView.frame.height
+            
+            detailsView.transform  = detailsViewScaleTransform
+            
+            detailsView.center = CGPoint(x: initialFrame.midX,
+                                         y: initialFrame.midY)
+            detailsView.layer.cornerRadius = 20
+            detailsView.clipsToBounds = true
+            detailsView.layoutIfNeeded()
         }
         
-        let containerView = transitionContext.containerView
-        
-        if let toView = transitionContext.view(forKey: .to) {
-            containerView.addSubview(toView)
-        }
-        containerView.bringSubviewToFront(detailImageView)
-        
+
         //Animate
         UIView.animate(withDuration: duration,
                        delay: 0,
                        usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 0,
                        animations: {
-                        detailImageView.transform = self.presenting ? .identity : detailsViewScaleTransform
-//                        detailImageView.frame.origin = finalFrame.origin
-                        detailImageView.center = CGPoint(x: finalFrame.midX,
+                        detailsView.transform = self.presenting ? .identity : detailsViewScaleTransform
+                        detailsView.center = CGPoint(x: finalFrame.midX,
                                                          y: finalFrame.midY)
-                        print("---Animation animate clouser. Frame: \(detailImageView.frame)")
+                        detailsViewController.rocketImageViewHeightConstraint.constant = self.presenting ? finalImageHeight : selectedCell.rocketImageView.frame.height
+                        detailsView.layer.cornerRadius = self.presenting ? 0 : 20
+                        detailsView.layoutIfNeeded()
                        },
                        completion: {_ in
-                        if !self.presenting {
-                            (transitionContext.viewController(forKey: .to) as! RocketsViewController).selectedCell?.alpha = 1
-                        }
-                        transitionContext.completeTransition(true)
-                        print("---Animation complition clouser. Frame: \(detailImageView.frame)")
+                        UIView.animate(withDuration: 1, animations: {
+                            if self.presenting {
+                                detailsView.frame.size.height = detailsViewHeight
+                                detailsView.layoutIfNeeded()
+                                detailsViewController.containerView.alpha = 1
+                            }
+                        }, completion: {_ in
+                            if !self.presenting {
+                                (transitionContext.viewController(forKey: .to) as! RocketsViewController).selectedCell?.alpha = 1
+                            }
+                            transitionContext.completeTransition(true)})
                        })
     }
 }
+
