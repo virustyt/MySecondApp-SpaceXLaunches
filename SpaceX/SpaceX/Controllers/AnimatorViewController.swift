@@ -34,7 +34,7 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
         containerView.bringSubviewToFront(detailsView)
         containerView.layoutIfNeeded()
 
-        guard let cellOriginFrame = originFrame 
+        guard let cellOriginFrame = originFrame
         else { return }
         
         let heightToWidthCellRatio:CGFloat = selectedCell.frame.height / selectedCell.frame.width
@@ -58,7 +58,8 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
         
         if presenting {
             detailsViewController.containerView.alpha = 0
-            detailsViewController.rocketImageViewHeightConstraint.constant = selectedCell.rocketImageView.frame.height
+            detailsViewController.rocketImageViewHeightConstraint.constant = 244 / detailsViewScaleY//selectedCell.rocketImageView.frame.height
+            
             
             detailsView.transform  = detailsViewScaleTransform
             
@@ -66,10 +67,9 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
                                          y: initialFrame.midY)
             detailsView.layer.cornerRadius = 20
             detailsView.clipsToBounds = true
-            detailsView.layoutIfNeeded()
         }
         
-
+        detailsView.layoutIfNeeded()
         //Animate
         UIView.animate(withDuration: duration,
                        delay: 0,
@@ -78,8 +78,8 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
                        animations: {
                         detailsView.transform = self.presenting ? .identity : detailsViewScaleTransform
                         detailsView.center = CGPoint(x: finalFrame.midX,
-                                                         y: finalFrame.midY)
-                        detailsViewController.rocketImageViewHeightConstraint.constant = self.presenting ? finalImageHeight : selectedCell.rocketImageView.frame.height
+                                                     y: finalFrame.midY)
+                        detailsViewController.rocketImageViewHeightConstraint.constant = self.presenting ? finalImageHeight : 244 / detailsViewScaleY //selectedCell.rocketImageView.frame.height
                         detailsView.layer.cornerRadius = self.presenting ? 0 : 20
                         detailsView.layoutIfNeeded()
                        },
@@ -94,6 +94,8 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
                             if !self.presenting {
                                 (transitionContext.viewController(forKey: .to) as! RocketsViewController).selectedCell?.alpha = 1
                             }
+                            print("detailsViewController.rocketImage.frame.height - ",detailsViewController.rocketImage.frame)
+                            print("selectedCell.rocketImageView.frame.height - ",selectedCell.rocketImageView.frame)
                             transitionContext.completeTransition(true)})
                        })
     }

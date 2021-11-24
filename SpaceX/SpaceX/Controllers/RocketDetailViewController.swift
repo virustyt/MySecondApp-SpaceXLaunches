@@ -267,16 +267,6 @@ class RocketDetailViewController: UIViewController {
     
     
     //MARK: - life cycle
-    override func loadView() {
-        super.loadView()
-        print(#function,rocketImage.frame)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print(#function,rocketImage.frame)
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let appearance = UINavigationBarAppearance()
@@ -289,28 +279,12 @@ class RocketDetailViewController: UIViewController {
         navigationItem.standardAppearance = appearance
         
         setNeedsStatusBarAppearanceUpdate()
-        
-        print("\n---viewWillAppear. Frame: ",rocketImage.frame)
-    }
-    
-    var i = 0
-    var g = 0
-    override func viewWillLayoutSubviews() {
-        print("\n\(i). viewWillLayoutSubviews. Frame: \(rocketImage.frame).")
     }
     
     override func viewDidLayoutSubviews() {
         setUpConstraints()
-        print("\(i). viewDidLayoutSubviews.  Frame: \(rocketImage.frame).")
-        i += 1
     }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("\n---viewDidAppear. Frame: \(rocketImage.frame).")
-    }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         let appearance = UINavigationBarAppearance()
@@ -336,9 +310,6 @@ class RocketDetailViewController: UIViewController {
     private func setUpConstraints(){
         view.addSubview(scrollView)
 
-//        scrollView.addSubview(topSummaryStack)
-//        scrollView.addSubview(ImagesStack)
-//        scrollView.addSubview(bottomSummaryStack)
         scrollView.addSubview(rocketImage)
         scrollView.addSubview(containerView)
         
@@ -357,7 +328,6 @@ class RocketDetailViewController: UIViewController {
             rocketNameLabel.bottomAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: -30),
             rocketNameLabel.leadingAnchor.constraint(equalTo: rocketImage.leadingAnchor, constant: 20),
             
-//            rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top),
             rocketImageViewTopConstraint,
             rocketImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
@@ -382,19 +352,6 @@ class RocketDetailViewController: UIViewController {
             bottomSummaryStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             bottomSummaryStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
             bottomSummaryStack.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -25)
-            
-//            topSummaryStack.topAnchor.constraint(equalTo: rocketImage.bottomAnchor,constant: 40),
-//            topSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-//            topSummaryStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -30),
-//            topSummaryStack.bottomAnchor.constraint(equalTo: ImagesStack.topAnchor,constant: -30),
-//
-//            ImagesStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-//            ImagesStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-//
-//            bottomSummaryStack.topAnchor.constraint(equalTo: ImagesStack.bottomAnchor,constant: 40),
-//            bottomSummaryStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-//            bottomSummaryStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -30),
-//            bottomSummaryStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,constant: -25)
         ])
     }
     
