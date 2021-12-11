@@ -13,6 +13,7 @@
 		84030B92274152B000B85CE5 /* Real_GET_Resopnse.json in Resources */ = {isa = PBXBuildFile; fileRef = 84030B91274152B000B85CE5 /* Real_GET_Resopnse.json */; };
 		840D181F271ED91B00133AC1 /* LaunchPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D181E271ED91B00133AC1 /* LaunchPad.swift */; };
 		840D1821271EEF6400133AC1 /* Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D1820271EEF6400133AC1 /* Rocket.swift */; };
+		840F685F274F9F1300A05FAF /* UIView+fadeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F685E274F9F1300A05FAF /* UIView+fadeAnimation.swift */; };
 		8416C0852744ED9300E42C04 /* SortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416C0842744ED9300E42C04 /* SortViewController.swift */; };
 		8416C0872744EDAC00E42C04 /* SortViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416C0862744EDAC00E42C04 /* SortViewCell.swift */; };
 		84211408272C081900A96736 /* GET_Rockets_Response.json in Resources */ = {isa = PBXBuildFile; fileRef = 84211407272C081900A96736 /* GET_Rockets_Response.json */; };
@@ -136,6 +137,7 @@
 		84030B91274152B000B85CE5 /* Real_GET_Resopnse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Real_GET_Resopnse.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.json; };
 		840D181E271ED91B00133AC1 /* LaunchPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPad.swift; sourceTree = "<group>"; };
 		840D1820271EEF6400133AC1 /* Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rocket.swift; sourceTree = "<group>"; };
+		840F685E274F9F1300A05FAF /* UIView+fadeAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+fadeAnimation.swift"; sourceTree = "<group>"; };
 		8416C0842744ED9300E42C04 /* SortViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortViewController.swift; sourceTree = "<group>"; };
 		8416C0862744EDAC00E42C04 /* SortViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortViewCell.swift; sourceTree = "<group>"; };
 		84211407272C081900A96736 /* GET_Rockets_Response.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = GET_Rockets_Response.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.json; };
@@ -465,6 +467,7 @@
 				84881EA02746A83F0038C086 /* UIImage+CellPlaceholder.swift */,
 				84881EA52746B8BA0038C086 /* UIButton+setUpLinkButton.swift */,
 				84713C532747C37C008CBF5D /* CALayer+setUpShadows.swift */,
+				840F685E274F9F1300A05FAF /* UIView+fadeAnimation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -773,6 +776,7 @@
 				84030B8C2741198A00B85CE5 /* LaunchesViewController.swift in Sources */,
 				8437808427327339001F28F3 /* RocketsViewController.swift in Sources */,
 				84881EA12746A83F0038C086 /* UIImage+CellPlaceholder.swift in Sources */,
+				840F685F274F9F1300A05FAF /* UIView+fadeAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

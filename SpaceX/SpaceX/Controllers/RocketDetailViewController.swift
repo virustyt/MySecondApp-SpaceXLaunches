@@ -34,11 +34,20 @@ class RocketDetailViewController: UIViewController {
         return image
     }()
     
-    private lazy var rocketNameLabel: UILabel = {
+    lazy var rocketNameLabel: UILabel = {
         let label = UILabel()
         label.text = rocketViewModel.name
-        label.textColor = .white
+        label.textColor = .brown
         label.font = UIFont(name: "Roboto-Bold", size: 42)
+        label.sizeToFit()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    //rocket title like on cell, wich is source of detailViewController
+    lazy var secondRocketNameOnlyForAnimationLabel: UILabel = {
+        let label = UILabel.titleLabelOne
+        label.text = rocketViewModel.name
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -265,6 +274,8 @@ class RocketDetailViewController: UIViewController {
     lazy var rocketImageViewHeightConstraint: NSLayoutConstraint = rocketImage.heightAnchor.constraint(equalToConstant: view.frame.width * 0.8)
     lazy var rocketImageViewTopConstraint: NSLayoutConstraint = rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top)
     
+    lazy var rocketTitleBottomAnchorConstraint = rocketNameLabel.bottomAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: -30)
+    lazy var rocketTitleLeadingAnchorConstraint = rocketNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)    
     
     //MARK: - life cycle
     override func viewWillAppear(_ animated: Bool) {
@@ -311,22 +322,25 @@ class RocketDetailViewController: UIViewController {
         view.addSubview(scrollView)
 
         scrollView.addSubview(rocketImage)
+        scrollView.addSubview(rocketNameLabel)
+        scrollView.addSubview(secondRocketNameOnlyForAnimationLabel)
         scrollView.addSubview(containerView)
         
         containerView.addSubview(topSummaryStack)
         containerView.addSubview(ImagesStack)
         containerView.addSubview(bottomSummaryStack)
-        
-        rocketImage.addSubview(rocketNameLabel)
-        
+ 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo:  view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            rocketNameLabel.bottomAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: -30),
-            rocketNameLabel.leadingAnchor.constraint(equalTo: rocketImage.leadingAnchor, constant: 20),
+            rocketTitleBottomAnchorConstraint,
+            rocketTitleLeadingAnchorConstraint,
+            
+            secondRocketNameOnlyForAnimationLabel.leadingAnchor.constraint(equalTo: rocketNameLabel.leadingAnchor),
+            secondRocketNameOnlyForAnimationLabel.bottomAnchor.constraint(equalTo: rocketNameLabel.bottomAnchor),
             
             rocketImageViewTopConstraint,
             rocketImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),

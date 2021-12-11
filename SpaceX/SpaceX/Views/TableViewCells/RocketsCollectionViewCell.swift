@@ -19,7 +19,13 @@ class RocketsCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    var rocketNameValueLabel = UILabel.titleLabelOne
+    var rocketTitleLabel: UILabel = {
+        let label = UILabel.titleLabelOne
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+//    var rocketTitleLabel = UILabel.titleLabelOne
     var firstLaunchValueLabel = UILabel.bodyLabel
     var localCostValueLabel = UILabel.bodyLabel
     var sucsessPrecentsValueLabel = UILabel.bodyLabel
@@ -58,17 +64,16 @@ class RocketsCollectionViewCell: UICollectionViewCell {
         rocketInfoStack.distribution = .equalSpacing
         rocketInfoStack.spacing = 10
         
-        let summaryStack = UIStackView(arrangedSubviews: [rocketNameValueLabel,rocketInfoStack])
-        summaryStack.axis = .vertical
-        summaryStack.alignment = .leading
-        summaryStack.distribution = .equalSpacing
-        summaryStack.spacing = 5
+        rocketInfoStack.translatesAutoresizingMaskIntoConstraints = false
         
-        summaryStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        return summaryStack
+        return rocketInfoStack
     }()
     
+    //MARK: - constraints
+    lazy var rocketTitleLabelTopAnchorConstraint = rocketTitleLabel.topAnchor.constraint(equalTo: rocketImageView.bottomAnchor, constant: 10)
+    lazy var rocketTitleLabelLeadingAnchorConstraint = rocketTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
+    
+    //MARK: - inits
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpConstraints()
@@ -81,6 +86,7 @@ class RocketsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - private funcs
     private func setUpShadows(){
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowRadius = 6
@@ -91,13 +97,20 @@ class RocketsCollectionViewCell: UICollectionViewCell {
     private func setUpConstraints(){
         contentView.addSubview(rocketImageView)
         contentView.addSubview(summaryInfoStack)
+        contentView.addSubview(rocketTitleLabel)
+        
+        rocketImageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        rocketTitleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        summaryInfoStack.setContentCompressionResistancePriority(.required, for: .vertical)
         NSLayoutConstraint.activate([
             rocketImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            rocketImageView.heightAnchor.constraint(equalToConstant: 244),
             rocketImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             rocketImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            summaryInfoStack.topAnchor.constraint(equalTo: rocketImageView.bottomAnchor, constant: 10),
+            rocketTitleLabelTopAnchorConstraint,
+            rocketTitleLabelLeadingAnchorConstraint,
+            
+            summaryInfoStack.topAnchor.constraint(equalTo: rocketTitleLabel.bottomAnchor, constant: 27),
             summaryInfoStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
             summaryInfoStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -59),
             summaryInfoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -21)
