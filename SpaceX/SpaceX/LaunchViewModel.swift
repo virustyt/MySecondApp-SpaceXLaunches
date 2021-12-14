@@ -5,7 +5,7 @@
 //  Created by Vladimir Oleinikov on 02.11.2021.
 //
 
-import Foundation
+import UIKit
 
 class LaunchViewModel{
     let launch: Launch
@@ -17,17 +17,19 @@ class LaunchViewModel{
     let name: String
     let dateUTC: String
     let id: String
+    let flightNumber: String
     
     init(_ launch: Launch){
         self.launch = launch
         self.links = LinksViewModel(launch)
-        self.staticFireDateUTC = LaunchViewModel.fireDate(launch.staticFireDateUTC)
-        self.rocket = launch.rocket
-        self.success = launch.success ? "Yes" : "No"
-        self.details = launch.details
-        self.name = launch.name
-        self.dateUTC = LaunchViewModel.fireDate(launch.dateUTC)
-        self.id = launch.id
+        self.staticFireDateUTC = launch.staticFireDateUTC == nil ? "" : LaunchViewModel.fireDate(launch.staticFireDateUTC!)
+        self.rocket = launch.rocket ?? ""
+        self.success = launch.success == nil ? "" : launch.success! ? "Yes" : "No"
+        self.details = launch.details ?? ""
+        self.name = launch.name ?? ""
+        self.dateUTC = launch.dateUTC == nil ? "" : LaunchViewModel.fireDate(launch.dateUTC!)
+        self.id = launch.id ?? ""
+        self.flightNumber = String(launch.flightNumber ?? 0)
     }
     
     static func fireDate(_ stringDate: String) -> String {
@@ -47,10 +49,10 @@ extension LaunchViewModel {
         let patch: PatchViewModel
         let reddit: RedditViewModel
         let flickr: FlickrViewModel
-        let presskit: URL?
-        let webcast: URL?
-        let youtubeID: String
-        let article, wikipedia: URL?
+        var presskit: URL?
+        var webcast: URL?
+        var youtubeID: String = ""
+        var article, wikipedia: URL?
     
         enum CodingKeys: String, CodingKey {
             case patch, reddit, flickr, presskit, webcast
@@ -62,41 +64,43 @@ extension LaunchViewModel {
             self.patch = PatchViewModel(launch)
             self.reddit = RedditViewModel(launch)
             self.flickr = FlickrViewModel(launch)
-            self.presskit = LaunchViewModel.getURL(from: launch.links.presskit)
-            self.webcast = LaunchViewModel.getURL(from: launch.links.webcast)
-            self.youtubeID = launch.links.youtubeID
-            self.article = LaunchViewModel.getURL(from: launch.links.article)
-            self.wikipedia = LaunchViewModel.getURL(from: launch.links.wikipedia)
+            guard let links = launch.links else {return}
+            self.presskit = LaunchViewModel.getURL(from: links.presskit)
+            self.webcast = LaunchViewModel.getURL(from: links.webcast)
+            self.youtubeID = links.youtubeID ?? ""
+            self.article = LaunchViewModel.getURL(from: links.article)
+            self.wikipedia = LaunchViewModel.getURL(from: links.wikipedia)
         }
     }
     
     struct FlickrViewModel: Equatable {
-        let small: [URL]
-        let original: [URL]
+        var small: [URL] = []
+        var original: [URL] = []
         
-        init(_ launch: Launch){
-            self.small = LaunchViewModel.getArrayOfURLs(from: launch.links.flickr.small)
-            self.original = LaunchViewModel.getArrayOfURLs(from: launch.links.flickr.original)
+        init(_ launch: Launch?){
+            guard let imagesURLs = launch?.links?.flickr else { return }
+            self.small = LaunchViewModel.getArrayOfURLs(from: imagesURLs.small)
+            self.original = LaunchViewModel.getArrayOfURLs(from: imagesURLs.original)
         }
     }
     
     struct PatchViewModel:  Equatable {
         let small, large: URL?
         
-        init(_ launch: Launch){
-            self.small = LaunchViewModel.getURL(from: launch.links.patch.small)
-            self.large = LaunchViewModel.getURL(from: launch.links.patch.large)
+        init(_ launch: Launch?){
+            self.small = LaunchViewModel.getURL(from: launch?.links?.patch?.small)
+            self.large = LaunchViewModel.getURL(from: launch?.links?.patch?.large)
         }
     }
     
     struct RedditViewModel: Equatable {
         let campaign, launch, media, recovery: URL?
         
-        init(_ launch: Launch){
-            self.campaign = LaunchViewModel.getURL(from: launch.links.reddit.campaign)
-            self.launch = LaunchViewModel.getURL(from: launch.links.reddit.launch)
-            self.media = LaunchViewModel.getURL(from: launch.links.reddit.media)
-            self.recovery = LaunchViewModel.getURL(from: launch.links.reddit.recovery)
+        init(_ launch: Launch?){
+            self.campaign = LaunchViewModel.getURL(from: launch?.links?.reddit?.campaign)
+            self.launch = LaunchViewModel.getURL(from: launch?.links?.reddit?.launch)
+            self.media = LaunchViewModel.getURL(from: launch?.links?.reddit?.media)
+            self.recovery = LaunchViewModel.getURL(from: launch?.links?.reddit?.recovery)
         }
     }
     
@@ -115,6 +119,20 @@ extension LaunchViewModel {
             }
         }
         return urls
+    }
+    
+    func setUpCell(cell: LaunchesCollectionViewCell){
+        cell.titleLabel.text = name
+        cell.dateLabel.text = dateUTC
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMMd, yyyy")
+        dateFormatter.locale = Locale.current
+        guard let launchDate = dateFormatter.date(from: dateUTC) else { return }
+        
+        cell.statusImageView.image = launchDate.compare(Date()) == .orderedAscending ? UIImage(named: "status upcoming") : UIImage(named: "status completed")
+        cell.launchNumberLabel.text = "# " + flightNumber
+        cell.logoView.image = UIImage(named: "launch logo")
     }
     
 }

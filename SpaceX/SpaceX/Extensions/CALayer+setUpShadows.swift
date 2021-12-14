@@ -7,15 +7,6 @@
 
 import UIKit
 
-class myLayer: CALayer {
-    override var masksToBounds: Bool {
-        didSet{
-            print()
-        }
-    }
-}
-
-
 extension CALayer {
     func setUpShadows(withShadowCornerRadius: CGFloat) {
 
@@ -23,6 +14,7 @@ extension CALayer {
         layer0.frame = bounds
         layer0.backgroundColor = backgroundColor
         layer0.shadowColor = UIColor(red: 0.68, green: 0.68, blue: 0.75, alpha: 0.4).cgColor
+//        layer0.shadowColor = UIColor.yellow.cgColor
         layer0.shadowOffset = CGSize(width: 1.5, height: 1.5)
         layer0.shadowRadius = 3
         layer0.shadowOpacity = 1

@@ -150,7 +150,8 @@ extension RocketsViewController: UICollectionViewDataSource{
     }
     
     private func rocketCell(tableView: UICollectionView, indexPath: IndexPath) -> RocketsCollectionViewCell{
-        let cell = rocketsCollectionView?.dequeueReusableCell(withReuseIdentifier: RocketsCollectionViewCell.identifyer, for: indexPath) as! RocketsCollectionViewCell
+        guard let cell = rocketsCollectionView?.dequeueReusableCell(withReuseIdentifier: RocketsCollectionViewCell.identifyer, for: indexPath) as? RocketsCollectionViewCell
+        else { fatalError("dequed cell isnt of class RocketsCollectionViewCell.") }
         let viewModel = viewModels[indexPath.item]
         viewModel.setUpCell(cell: cell)
         

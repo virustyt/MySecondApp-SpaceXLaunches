@@ -9,14 +9,15 @@ import Foundation
 
 // MARK: - Launch
 struct Launch: Codable,Equatable {
-    let links: Links
-    let staticFireDateUTC: String
-    let rocket: String
-    let success: Bool
-    let details: String
-    let name: String
-    let dateUTC: String
-    let id: String
+    let links: Links?
+    let staticFireDateUTC: String?
+    let rocket: String?
+    let success: Bool?
+    let details: String?
+    let name: String?
+    let dateUTC: String?
+    let id: String?
+    let flightNumber: Int?
 
     enum CodingKeys: String, CodingKey {
         case links
@@ -25,18 +26,19 @@ struct Launch: Codable,Equatable {
         case name
         case dateUTC = "date_utc"
         case id
+        case flightNumber = "flight_number"
     }
 }
 
 // MARK: - Links
 struct Links: Codable,Equatable {
-    let patch: Patch
-    let reddit: Reddit
-    let flickr: Flickr
-    let presskit: String
-    let webcast: String
-    let youtubeID: String
-    let article, wikipedia: String
+    let patch: Patch?
+    let reddit: Reddit?
+    let flickr: Flickr?
+    let presskit: String?
+    let webcast: String?
+    let youtubeID: String?
+    let article, wikipedia: String?
 
     enum CodingKeys: String, CodingKey {
         case patch, reddit, flickr, presskit, webcast
@@ -58,7 +60,7 @@ struct Patch: Codable, Equatable {
 
 // MARK: - Reddit
 struct Reddit: Codable, Equatable {
-    let campaign, launch, media: String
+    let campaign, launch, media: String?
     let recovery: String?
 }
 

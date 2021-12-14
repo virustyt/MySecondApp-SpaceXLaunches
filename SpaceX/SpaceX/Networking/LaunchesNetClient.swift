@@ -9,6 +9,7 @@ import Foundation
 
 protocol LaunchesNetProtocol{
     func getAllRockets(complition: @escaping ([Rocket]?, Error?) -> ()) -> URLSessionDataTask?
+    func getAllLaunches(complition: @escaping ([Launch]?, Error?) -> ()) -> URLSessionDataTask?
 }
 
 class LaunchesNetClient: LaunchesNetProtocol {
@@ -63,6 +64,30 @@ class LaunchesNetClient: LaunchesNetProtocol {
         return dataTask
     }
     
+    func getAllLaunches(complition: @escaping ([Launch]?, Error?) -> ()) -> URLSessionDataTask?{
+        guard let baseLaunchesURL = baseUrls[.launches],
+              let url = URL(string: "launches", relativeTo: baseLaunchesURL) else { return nil}
+        
+        let dataTask = urlSession.dataTask(with: url) {[weak self] data, response, error in
+            guard let self = self else {return}
+            guard let httpResponse = response as? HTTPURLResponse,
+                  200...299 ~= httpResponse.statusCode,
+                  let recievedData = data
+            else {
+                self.dispatchResults(error: error, complitionHandler: complition )
+                return
+            }
+            do {
+                let launches = try JSONDecoder().decode([Launch].self, from: recievedData)
+                self.dispatchResults(model: launches, complitionHandler: complition)
+            } catch {
+                self.dispatchResults(error: error, complitionHandler: complition)
+            }
+        }
+        dataTask.resume()
+        return dataTask
+    }
+    
     func dispatchResults<Type>(model: Type? = nil, error: Error? = nil, complitionHandler: @escaping (Type?,Error?) -> ()){
         guard let responseQueue = self.resopnseQueue
         else {
@@ -70,18 +95,6 @@ class LaunchesNetClient: LaunchesNetProtocol {
             return
         }
         responseQueue.async { complitionHandler(model,error) }
-    }
-    
-    func jsonToString(json: AnyObject) -> String{
-        do {
-            let data1 = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-            let convertedString = String(data: data1, encoding: String.Encoding.utf8) as NSString? ?? ""
-            debugPrint(convertedString)
-            return convertedString as String
-        } catch let myJSONError {
-            debugPrint(myJSONError)
-            return ""
-        }
     }
 }
 

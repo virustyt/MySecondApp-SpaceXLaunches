@@ -25,7 +25,6 @@ class RocketsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    var rocketTitleLabel = UILabel.titleLabelOne
     var firstLaunchValueLabel = UILabel.bodyLabel
     var localCostValueLabel = UILabel.bodyLabel
     var sucsessPrecentsValueLabel = UILabel.bodyLabel

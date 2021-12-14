@@ -37,7 +37,7 @@ class RocketDetailViewController: UIViewController {
     lazy var rocketNameLabel: UILabel = {
         let label = UILabel()
         label.text = rocketViewModel.name
-        label.textColor = .brown
+        label.textColor = .white
         label.font = UIFont(name: "Roboto-Bold", size: 42)
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -275,7 +275,7 @@ class RocketDetailViewController: UIViewController {
     lazy var rocketImageViewTopConstraint: NSLayoutConstraint = rocketImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: -view.safeAreaInsets.top)
     
     lazy var rocketTitleBottomAnchorConstraint = rocketNameLabel.bottomAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: -30)
-    lazy var rocketTitleLeadingAnchorConstraint = rocketNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)    
+    lazy var rocketTitleLeadingAnchorConstraint = rocketNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
     
     //MARK: - life cycle
     override func viewWillAppear(_ animated: Bool) {
