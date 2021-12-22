@@ -39,8 +39,10 @@ class DetailsView: UIView {
     var secondLineValue: String? {
         didSet{
             secondLineBodyLabel.text = secondLineValue
-            titlesStack.addArrangedSubview(secondLineTitleLabel)
-            valuesStack.addArrangedSubview(secondLineBodyLabel)
+            if secondLineValue != "" {
+                titlesStack.addArrangedSubview(secondLineTitleLabel)
+                valuesStack.addArrangedSubview(secondLineBodyLabel)
+            }
         }
     }
     
@@ -53,8 +55,11 @@ class DetailsView: UIView {
     var thirdLineValue: String? {
         didSet{
             thirdLineBodyLabel.text = thirdLineValue
-            titlesStack.addArrangedSubview(thirdLineTitleLabel)
-            valuesStack.addArrangedSubview(thirdLineBodyLabel)
+            if thirdLineValue != "" {
+                titlesStack.addArrangedSubview(thirdLineTitleLabel)
+                valuesStack.addArrangedSubview(thirdLineBodyLabel)
+            }
+            
         }
     }
     

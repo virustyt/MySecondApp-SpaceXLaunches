@@ -235,6 +235,7 @@ class LaunchDetailsViewController: UIViewController {
         
         if launchViewModel.details == "" {
             descriptionStackViewTopAnchorConstraint.constant = 0
+            descriptionStackView.spacing = 0
             descriptionStackView.heightAnchor.constraint(equalToConstant: 0).isActive = true
         }
         
