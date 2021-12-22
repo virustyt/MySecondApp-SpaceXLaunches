@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RocketDetailViewController: UIViewController {
+class RocketDetailsViewController: UIViewController {
     
     private var scrollView: UIScrollView = {
        let scrollView = UIScrollView()
@@ -73,7 +73,7 @@ class RocketDetailViewController: UIViewController {
         detailsList.mainTitle = "Overview"
         
         detailsList.firstLineTitle = "First launch"
-        detailsList.firstLineVslue = rocketViewModel.firstFlight
+        detailsList.firstLineValue = rocketViewModel.firstFlight
         
         detailsList.secondLineTitle = "Launch cost"
         detailsList.secondLineValue = rocketViewModel.costPerLaunch
@@ -100,7 +100,7 @@ class RocketDetailViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: layout)
-        collectionView.register(RocketsDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(OnlyImageCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .white
@@ -139,7 +139,7 @@ class RocketDetailViewController: UIViewController {
         detailsList.mainTitle = "Engines"
         
         detailsList.firstLineTitle = "Type"
-        detailsList.firstLineVslue = rocketViewModel.engines.type
+        detailsList.firstLineValue = rocketViewModel.engines.type
         
         detailsList.secondLineTitle = "Layout"
         detailsList.secondLineValue = rocketViewModel.engines.layout
@@ -164,7 +164,7 @@ class RocketDetailViewController: UIViewController {
         detailsList.mainTitle = "First stage"
         
         detailsList.firstLineTitle = "Reusable"
-        detailsList.firstLineVslue = rocketViewModel.firstStage.reusable
+        detailsList.firstLineValue = rocketViewModel.firstStage.reusable
         
         detailsList.secondLineTitle = "Engines amaount"
         detailsList.secondLineValue = rocketViewModel.firstStage.engines
@@ -190,7 +190,7 @@ class RocketDetailViewController: UIViewController {
         detailsList.mainTitle = "Second stage"
         
         detailsList.firstLineTitle = "Reusable"
-        detailsList.firstLineVslue = rocketViewModel.secondStage.reusable
+        detailsList.firstLineValue = rocketViewModel.secondStage.reusable
         
         detailsList.secondLineTitle = "Engines amaount"
         detailsList.secondLineValue = rocketViewModel.secondStage.engines
@@ -212,7 +212,7 @@ class RocketDetailViewController: UIViewController {
         detailsList.mainTitle = "Landing legs"
         
         detailsList.firstLineTitle = "Amount"
-        detailsList.firstLineVslue = rocketViewModel.landingLegs.number
+        detailsList.firstLineValue = rocketViewModel.landingLegs.number
         
         detailsList.secondLineTitle = "Material"
         detailsList.secondLineValue = rocketViewModel.landingLegs.material
@@ -220,21 +220,11 @@ class RocketDetailViewController: UIViewController {
         return detailsList
     }()
     
-    private lazy var materialsView: UIStackView = {
-        let label = UILabel.descriptionTitleLabel
-        label.text = "Materials"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        let wikiLinkButton = LinkView(title: "Materials", actionForTap: {})
-        wikiLinkButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        let stack = UIStackView(arrangedSubviews: [label, wikiLinkButton])
-        stack.axis = .vertical
-        stack.distribution = .equalSpacing
-        stack.spacing = 20
-        stack.alignment = .leading
-
-        return stack
+    private lazy var materialsView: LinksView = {
+        var  linksView = LinksView(titlesAndItsLinks: [("Wikipedia", rocketViewModel.wikipedia)])
+        linksView.titleLabel.text = "Materials"
+        linksView.translatesAutoresizingMaskIntoConstraints = false
+        return linksView
     }()
     
     private lazy var topSummaryStack: UIStackView = {
@@ -249,7 +239,7 @@ class RocketDetailViewController: UIViewController {
     }()
     
     private lazy var bottomSummaryStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [enginesView, firstStageView, secondStageView, landingLegsView, materialsView])
+        let stack = UIStackView(arrangedSubviews: [enginesView, firstStageView, secondStageView, landingLegsView])
         stack.axis = .vertical
         stack.distribution = .equalSpacing
         stack.spacing = 30
@@ -329,6 +319,7 @@ class RocketDetailViewController: UIViewController {
         containerView.addSubview(topSummaryStack)
         containerView.addSubview(ImagesStack)
         containerView.addSubview(bottomSummaryStack)
+        containerView.addSubview(materialsView)
  
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo:  view.topAnchor),
@@ -365,7 +356,11 @@ class RocketDetailViewController: UIViewController {
             bottomSummaryStack.topAnchor.constraint(equalTo: ImagesStack.bottomAnchor,constant: 40),
             bottomSummaryStack.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             bottomSummaryStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
-            bottomSummaryStack.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -25)
+            bottomSummaryStack.bottomAnchor.constraint(equalTo: materialsView.topAnchor,constant: -30),
+            
+            materialsView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            materialsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            materialsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -25)
         ])
     }
     
@@ -373,12 +368,12 @@ class RocketDetailViewController: UIViewController {
 
 
 //MARK: - UICollectionViewDelegate
-extension RocketDetailViewController: UICollectionViewDelegateFlowLayout {
+extension RocketDetailsViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
 //MARK: -UICollectionViewDataSource
-extension RocketDetailViewController: UICollectionViewDataSource {
+extension RocketDetailsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return rocketViewModel.flickrImages.count
     }
@@ -387,12 +382,12 @@ extension RocketDetailViewController: UICollectionViewDataSource {
         return setUpCell(collectionView: collectionView, indexPath: indexPath)
     }
     
-    func setUpCell(collectionView: UICollectionView, indexPath: IndexPath) -> RocketsDetailCollectionViewCell{
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? RocketsDetailCollectionViewCell
+    func setUpCell(collectionView: UICollectionView, indexPath: IndexPath) -> OnlyImageCollectionViewCell{
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? OnlyImageCollectionViewCell
         else {fatalError("Cell with identifyer `cell` does not regestered or does not conform to `RocketsCollectionViewCell` type.")}
         
         let rocketImageURL = rocketViewModel.flickrImages[indexPath.item]
-        ImageClient.shared.setImage(on: cell.rocketImageView, from: rocketImageURL, with: UIImage.cellPlaceholderImage)
+        ImageClient.shared.setImage(on: cell.imageView, from: rocketImageURL, with: UIImage.cellPlaceholderImage)
         return cell
     }
     

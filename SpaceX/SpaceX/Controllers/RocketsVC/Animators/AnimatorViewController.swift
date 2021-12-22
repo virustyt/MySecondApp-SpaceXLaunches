@@ -23,7 +23,7 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
         //setUp
         let containerView = transitionContext.containerView
 
-        guard let detailsViewController = transitionContext.viewController(forKey: presenting ? .to : .from) as? RocketDetailViewController,
+        guard let detailsViewController = transitionContext.viewController(forKey: presenting ? .to : .from) as? RocketDetailsViewController,
               let detailsView = detailsViewController.view,
               let allRocketsViewController = transitionContext.viewController(forKey: presenting ? .from : .to) as? RocketsViewController,
               let selectedCell = allRocketsViewController.selectedCell,

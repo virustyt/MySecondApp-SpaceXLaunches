@@ -7,9 +7,9 @@
 
 import UIKit
 
-class RocketsDetailCollectionViewCell: UICollectionViewCell {
+class OnlyImageCollectionViewCell: UICollectionViewCell {
     
-    var rocketImageView: UIImageView = {
+    var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,12 +30,12 @@ class RocketsDetailCollectionViewCell: UICollectionViewCell {
     }
     
     func setUpConstraints(){
-        contentView.addSubview(rocketImageView)
+        contentView.addSubview(imageView)
         NSLayoutConstraint.activate([
-            rocketImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 3),
-            rocketImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
-            rocketImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
-            rocketImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3)
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 3),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3)
         ])
     }
 }

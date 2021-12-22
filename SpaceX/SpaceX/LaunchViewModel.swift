@@ -8,6 +8,8 @@
 import UIKit
 
 class LaunchViewModel{
+    static var shared = [LaunchViewModel]()
+    
     let launch: Launch
     let links: LinksViewModel
     let staticFireDateUTC: String
@@ -51,7 +53,7 @@ extension LaunchViewModel {
         let flickr: FlickrViewModel
         var presskit: URL?
         var webcast: URL?
-        var youtubeID: String = ""
+        var youtube: URL?
         var article, wikipedia: URL?
     
         enum CodingKeys: String, CodingKey {
@@ -67,7 +69,7 @@ extension LaunchViewModel {
             guard let links = launch.links else {return}
             self.presskit = LaunchViewModel.getURL(from: links.presskit)
             self.webcast = LaunchViewModel.getURL(from: links.webcast)
-            self.youtubeID = links.youtubeID ?? ""
+            self.youtube = links.youtubeID == nil ? nil : URL(string: "https://www.youtube.com/watch?v=\(links.youtubeID!)")
             self.article = LaunchViewModel.getURL(from: links.article)
             self.wikipedia = LaunchViewModel.getURL(from: links.wikipedia)
         }

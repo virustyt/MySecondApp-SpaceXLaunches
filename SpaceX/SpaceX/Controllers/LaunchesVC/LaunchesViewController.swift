@@ -12,6 +12,7 @@ class LaunchesViewController: UIViewController {
     private var netClient: LaunchesNetProtocol = LaunchesNetClient.shared
     private var dataTask: URLSessionDataTask?
     private let imageClient: ImageClientProtocol = ImageClient.shared
+    var selectedCell: LaunchesCollectionViewCell?
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -23,6 +24,7 @@ class LaunchesViewController: UIViewController {
     private lazy var launchesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
@@ -35,12 +37,13 @@ class LaunchesViewController: UIViewController {
         return collectionView
     }()
     
-    private var viewModels: [LaunchViewModel] = []
+    private var viewModels: [LaunchViewModel] = LaunchViewModel.shared
     
     //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpConstraints()
+        refresh()
     }
     
     //MARK: - private functions
@@ -87,6 +90,21 @@ extension LaunchesViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: smallestViewSideSize - interItemSpacing * 2,
                           height: (smallestViewSideSize - interItemSpacing * 2) / 2.6)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedCell = collectionView.cellForItem(at: indexPath) as? LaunchesCollectionViewCell
+        
+        let viewModelOfSelectedCell = viewModels[indexPath.item]
+        let detailsVC = LaunchDetailsViewController(for: viewModelOfSelectedCell)
+
+        detailsVC.hidesBottomBarWhenPushed = true
+
+        navigationItem.backBarButtonItem = UIBarButtonItem(image: nil,
+                                                           style: .done,
+                                                                     target: nil,
+                                                                     action: nil)
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 

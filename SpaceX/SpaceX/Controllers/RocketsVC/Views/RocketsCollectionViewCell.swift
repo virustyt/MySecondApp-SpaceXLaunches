@@ -114,5 +114,13 @@ class RocketsCollectionViewCell: UICollectionViewCell {
             summaryInfoStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -59),
             summaryInfoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -21)
         ])
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: contentView.topAnchor),
+            leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
 }

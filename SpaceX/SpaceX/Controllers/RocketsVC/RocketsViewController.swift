@@ -16,7 +16,7 @@ class RocketsViewController: UIViewController {
     private var popAnimator = AnimatorViewController()
     var selectedCell: RocketsCollectionViewCell?
     
-    var viewModels: [RocketViewModel] = []
+    var viewModels: [RocketViewModel] =  RocketViewModel.shared 
     
     //MARK: - Life cycle
     override func viewDidLoad() {
@@ -36,7 +36,9 @@ class RocketsViewController: UIViewController {
         guard dataTask == nil else {return}
         self.rocketsCollectionView?.refreshControl?.beginRefreshing()
         dataTask = networkClient.getAllRockets(complition: {[weak self] rockets, error in
-            self?.viewModels = rockets?.map {RocketViewModel(rocket: $0)} ?? []
+//            self?.viewModels = rockets?.map {RocketViewModel(rocket: $0)} ?? []
+            RocketViewModel.shared = rockets?.map {RocketViewModel(rocket: $0)} ?? []
+            
             self?.dataTask = nil
             self?.rocketsCollectionView?.reloadData()
             
@@ -124,8 +126,8 @@ extension RocketsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedCell = collectionView.cellForItem(at: indexPath) as? RocketsCollectionViewCell
         
-        let viewModelOfSelectedCell = viewModels[indexPath.item]
-        let detailsVC = RocketDetailViewController(for: viewModelOfSelectedCell)
+        let viewModelOfSelectedCell = RocketViewModel.shared[indexPath.item]
+        let detailsVC = RocketDetailsViewController(for: viewModelOfSelectedCell)
 
         detailsVC.hidesBottomBarWhenPushed = true
 
@@ -142,7 +144,7 @@ extension RocketsViewController: UICollectionViewDelegateFlowLayout {
 //MARK: - DataSource
 extension RocketsViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModels.count
+        RocketViewModel.shared.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -152,7 +154,7 @@ extension RocketsViewController: UICollectionViewDataSource{
     private func rocketCell(tableView: UICollectionView, indexPath: IndexPath) -> RocketsCollectionViewCell{
         guard let cell = rocketsCollectionView?.dequeueReusableCell(withReuseIdentifier: RocketsCollectionViewCell.identifyer, for: indexPath) as? RocketsCollectionViewCell
         else { fatalError("dequed cell isnt of class RocketsCollectionViewCell.") }
-        let viewModel = viewModels[indexPath.item]
+        let viewModel = RocketViewModel.shared[indexPath.item]
         viewModel.setUpCell(cell: cell)
         
         if let urlForRocketImage = viewModel.flickrImages.first {

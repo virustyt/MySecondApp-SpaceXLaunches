@@ -21,11 +21,13 @@ class DetailsView: UIView {
         }
     }
     
-    var firstLineVslue: String? {
+    var firstLineValue: String? {
         didSet{
-            firstLineBodyLabel.text = firstLineVslue
-            titlesStack.addArrangedSubview(firstLineTitleLabel)
-            valuesStack.addArrangedSubview(firstLineBodyLabel)
+            firstLineBodyLabel.text = firstLineValue
+            if firstLineValue != "" {
+                titlesStack.addArrangedSubview(firstLineTitleLabel)
+                valuesStack.addArrangedSubview(firstLineBodyLabel)
+            }
         }
     }
     

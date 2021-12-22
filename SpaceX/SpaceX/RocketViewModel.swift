@@ -11,6 +11,8 @@ import UIKit
 //                                       payloadWeights, type, active, stages, boosters, country, company
 
 class RocketViewModel{
+    static var shared = [RocketViewModel]()
+    
     let rocket:Rocket
     
     let height: String
