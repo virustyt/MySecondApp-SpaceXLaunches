@@ -81,13 +81,16 @@ class LaunchesCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
+    //MARK: - constraints
+    lazy var cellWidthConstraint = contentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40)
+    
     //MARK: - private funcs
     private func setUpConstraints(){
         contentView.addSubview(finalStack2)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([            
-            contentView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40),
+            cellWidthConstraint,
             
             logoView.heightAnchor.constraint(lessThanOrEqualTo: logoView.widthAnchor, multiplier: 1),
             logoView.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 40) / 3.42),

@@ -184,6 +184,8 @@ class LaunchDetailsViewController: UIViewController {
         let launchImagesViewTopAnchorConstraint = launchImagesView.topAnchor.constraint(equalTo: overviewStackView.bottomAnchor, constant: 30)
         let materialsViewTopAnchorConstraint = materialsView.topAnchor.constraint(equalTo: rocketInfoCell.bottomAnchor,constant: 30)
         let redditViewTopAnchorConstraint = redditView.topAnchor.constraint(equalTo: materialsView.bottomAnchor, constant: 30)
+        
+        tappedCell.cellWidthConstraint.isActive = false
 
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -199,7 +201,8 @@ class LaunchDetailsViewController: UIViewController {
             containerForAllViews.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
 
             tappedCell.topAnchor.constraint(equalTo: containerForAllViews.topAnchor,constant: 10),
-            tappedCell.centerXAnchor.constraint(equalTo: containerForAllViews.centerXAnchor),
+            tappedCell.leadingAnchor.constraint(equalTo: containerForAllViews.leadingAnchor),
+            tappedCell.trailingAnchor.constraint(equalTo: containerForAllViews.trailingAnchor),
 
             descriptionStackViewTopAnchorConstraint,
             descriptionStackView.leadingAnchor.constraint(equalTo: containerForAllViews.leadingAnchor,constant: 20),
