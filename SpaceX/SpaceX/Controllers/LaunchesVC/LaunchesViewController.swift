@@ -43,10 +43,27 @@ class LaunchesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpConstraints()
+        setUpNavigationItem()
         refresh()
     }
     
     //MARK: - private functions
+    private func setUpNavigationItem(){
+        let sortBarButtonItem = UIBarButtonItem(image: UIImage(named: "button-sort"),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(showSortViewController))
+        sortBarButtonItem.tintColor = UIColor.coral
+        navigationItem.rightBarButtonItem = sortBarButtonItem
+    }
+    
+    @objc private func showSortViewController(){
+        let popUpSortController = SortViewController(forViewModelKind: .launches(controller: self))
+        popUpSortController.modalPresentationStyle = .overCurrentContext
+        popUpSortController.modalTransitionStyle = .coverVertical
+        showDetailViewController(popUpSortController, sender: self)
+    }
+    
     private func setUpConstraints(){
         view.addSubview(launchesCollectionView)
         NSLayoutConstraint.activate([

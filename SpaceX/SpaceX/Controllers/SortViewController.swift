@@ -237,7 +237,7 @@ class SortViewController: UIViewController {
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.setLocalizedDateFormatFromTemplate("MMMMd, yyyy")
         
-        rocketsVC.viewModels.sort(by: {
+        RocketViewModel.shared.sort(by: {
             guard let firstDate = dateFormatter.date(from: $0.firstFlight) else { return false }
             guard let secondDate = dateFormatter.date(from: $1.firstFlight) else { return true }
             return firstDate >= secondDate
@@ -247,12 +247,12 @@ class SortViewController: UIViewController {
         rocketsVC.rocketsCollectionView?.reloadSections(indexSet)
     }
     @objc private func sortRocketsByLaunchCost(containedIn rocketsVC: RocketsViewController){
-        rocketsVC.viewModels.sort(by: {$0.rocket.costPerLaunch ?? 0 > $1.rocket.costPerLaunch ?? 0})
+        RocketViewModel.shared.sort(by: {$0.rocket.costPerLaunch ?? 0 > $1.rocket.costPerLaunch ?? 0})
         let indexSet = IndexSet(integersIn: 0...0)
         rocketsVC.rocketsCollectionView?.reloadSections(indexSet)
     }
     @objc private func sortRocketsBySuccessRate(containedIn rocketsVC: RocketsViewController){
-        rocketsVC.viewModels.sort(by: {$0.rocket.successRatePct ?? 0 > $1.rocket.successRatePct ?? 0})
+        RocketViewModel.shared.sort(by: {$0.rocket.successRatePct ?? 0 > $1.rocket.successRatePct ?? 0})
         let indexSet = IndexSet(integersIn: 0...0)
         rocketsVC.rocketsCollectionView?.reloadSections(indexSet)
     }

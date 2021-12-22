@@ -154,7 +154,7 @@ class LaunchDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - private funcs
+    //MARK: - private funcs   
     private func setUpConstraints(){
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
