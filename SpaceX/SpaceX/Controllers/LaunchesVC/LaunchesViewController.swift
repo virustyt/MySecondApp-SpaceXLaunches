@@ -21,7 +21,7 @@ class LaunchesViewController: UIViewController {
         return refreshControl
     }()
 
-    private lazy var launchesCollectionView: UICollectionView = {
+    lazy var launchesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.scrollDirection = .vertical
@@ -37,7 +37,7 @@ class LaunchesViewController: UIViewController {
         return collectionView
     }()
     
-    private var viewModels: [LaunchViewModel] = LaunchViewModel.shared
+//    private var viewModels: [LaunchViewModel] = LaunchViewModel.shared
     
     //MARK: - life cycle
     override func viewDidLoad() {
@@ -82,7 +82,7 @@ class LaunchesViewController: UIViewController {
         dataTask = netClient.getAllLaunches(complition: { [weak self] recievedLaunches, error in
             guard let self = self,
                   let arrayOfLaunches = recievedLaunches else {return}
-            self.viewModels = arrayOfLaunches.map { LaunchViewModel($0) }
+            LaunchViewModel.shared = arrayOfLaunches.map { LaunchViewModel($0) }
             self.launchesCollectionView.refreshControl?.endRefreshing()
             self.dataTask = nil
             self.launchesCollectionView.reloadData()
@@ -112,7 +112,7 @@ extension LaunchesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedCell = collectionView.cellForItem(at: indexPath) as? LaunchesCollectionViewCell
         
-        let viewModelOfSelectedCell = viewModels[indexPath.item]
+        let viewModelOfSelectedCell = LaunchViewModel.shared[indexPath.item]
         let detailsVC = LaunchDetailsViewController(for: viewModelOfSelectedCell)
 
         detailsVC.hidesBottomBarWhenPushed = true
@@ -127,14 +127,14 @@ extension LaunchesViewController: UICollectionViewDelegateFlowLayout {
 
 extension LaunchesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModels.count
+        LaunchViewModel.shared.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LaunchesCollectionViewCell.reuseIdentifyer, for: indexPath) as? LaunchesCollectionViewCell
         else { fatalError("Dequed cell isnt of class LaunchesCollectionViewCell.")}
         
-        let viewModel = viewModels[indexPath.item]
+        let viewModel = LaunchViewModel.shared[indexPath.item]
         viewModel.setUpCell(cell: cell)
         
         guard let logoImageURL = viewModel.links.patch.small else { return cell }

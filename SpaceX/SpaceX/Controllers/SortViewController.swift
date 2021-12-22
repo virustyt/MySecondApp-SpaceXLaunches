@@ -259,13 +259,40 @@ class SortViewController: UIViewController {
     
     //MARK: - sort launches
     @objc private func sortLaunchesByLaunchDate(containedIn launchesVC: LaunchesViewController){
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMMd, yyyy")
         
+        LaunchViewModel.shared.sort(by: {
+            guard let firstDate = dateFormatter.date(from: $0.dateUTC) else { return false }
+            guard let secondDate = dateFormatter.date(from: $1.dateUTC) else { return true }
+            return firstDate >= secondDate
+        })
+        
+        let indexSet = IndexSet(integersIn: 0...0)
+        launchesVC.launchesCollectionView.reloadSections(indexSet)
     }
     @objc private func sortLaunchesByTitle(containedIn launchesVC: LaunchesViewController){
+        LaunchViewModel.shared.sort(by: {
+            $0.name <= $1.name
+        })
         
+        let indexSet = IndexSet(integersIn: 0...0)
+        launchesVC.launchesCollectionView.reloadSections(indexSet)
     }
     @objc private func sortLaunchesByDate(containedIn launchesVC: LaunchesViewController){
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMMd, yyyy")
         
+        LaunchViewModel.shared.sort(by: {
+            guard let firstDate = dateFormatter.date(from: $0.staticFireDateUTC) else { return false }
+            guard let secondDate = dateFormatter.date(from: $1.staticFireDateUTC) else { return true }
+            return firstDate >= secondDate
+        })
+        
+        let indexSet = IndexSet(integersIn: 0...0)
+        launchesVC.launchesCollectionView.reloadSections(indexSet)
     }
     
     //MARK: - sort launchpads
