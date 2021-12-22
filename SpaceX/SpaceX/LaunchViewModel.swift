@@ -132,7 +132,7 @@ extension LaunchViewModel {
         dateFormatter.locale = Locale.current
         guard let launchDate = dateFormatter.date(from: dateUTC) else { return }
         
-        cell.statusImageView.image = launchDate.compare(Date()) == .orderedAscending ? UIImage(named: "status upcoming") : UIImage(named: "status completed")
+        cell.statusImageView.image = launchDate.compare(Date()) == .orderedDescending ? UIImage(named: "status upcoming") : UIImage(named: "status completed")
         cell.launchNumberLabel.text = "# " + flightNumber
         cell.logoView.image = UIImage(named: "launch logo")
     }
