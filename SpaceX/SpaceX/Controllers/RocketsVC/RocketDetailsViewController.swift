@@ -9,7 +9,7 @@ import UIKit
 
 class RocketDetailsViewController: UIViewController {
     
-    private var scrollView: UIScrollView = {
+    var scrollView: UIScrollView = {
        let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .white

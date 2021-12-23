@@ -104,6 +104,10 @@ extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
             
             detailsView.layer.cornerRadius = self.presenting ? 0 : 20
             
+            if !self.presenting{
+                detailsViewController.scrollView.setContentOffset(CGPoint(x: 0, y: -detailsViewController.view.safeAreaInsets.top ), animated: false)
+            }
+
             //animate rocketTitleLabel position
             detailsViewController.rocketTitleBottomAnchorConstraint.constant = self.presenting ? originBottomConstant / detailsViewScaleY : (cellTitleTopConstant + detailsTitleHeight) / detailsViewScaleY
             detailsViewController.rocketTitleLeadingAnchorConstraint.constant = self.presenting ? originLeadingConstant / detailsViewScaleX : cellTitleLeadingConstant / detailsViewScaleX
