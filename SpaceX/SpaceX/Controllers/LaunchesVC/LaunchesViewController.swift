@@ -37,8 +37,6 @@ class LaunchesViewController: UIViewController {
         return collectionView
     }()
     
-//    private var viewModels: [LaunchViewModel] = LaunchViewModel.shared
-    
     //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,12 +117,13 @@ extension LaunchesViewController: UICollectionViewDelegateFlowLayout {
 
         navigationItem.backBarButtonItem = UIBarButtonItem(image: nil,
                                                            style: .done,
-                                                                     target: nil,
-                                                                     action: nil)
+                                                           target: nil,
+                                                           action: nil)
         navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
 
+//MARK: - UICollectionViewDataSource
 extension LaunchesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         LaunchViewModel.shared.count

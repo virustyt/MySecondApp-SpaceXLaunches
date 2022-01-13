@@ -15,8 +15,7 @@ class TabBarViewController: UITabBarController {
         tabBar.barTintColor = UIColor.queenBlue
         
         self.setViewControllers([createNavControllerWithTabBarItemForViewController(for: RocketsViewController(), tabBarImageName: "rockets"),
-                                 createNavControllerWithTabBarItemForViewController(for: LaunchesViewController(), tabBarImageName: "launches"),
-                                 createNavControllerWithTabBarItemForViewController(for: LaunchpadsViewController(), tabBarImageName: "launchpads")],
+                                 createNavControllerWithTabBarItemForViewController(for: LaunchesViewController(), tabBarImageName: "launches")],
                                 animated: true)
     }
     
@@ -33,5 +32,4 @@ class TabBarViewController: UITabBarController {
                                                          .foregroundColor: UIColor.coral], for: .selected)
         return navController
     }
-    
 }

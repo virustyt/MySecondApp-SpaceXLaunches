@@ -8,6 +8,15 @@
 import UIKit
 
 class RocketDetailsViewController: UIViewController {
+
+    private lazy var fullScreenImageViewController: FullScreenImageViewController = {
+        let viewController = FullScreenImageViewController()
+
+        let tapGestureRecognizre = UITapGestureRecognizer(target: self, action: #selector(fullScreenImageViewTapped))
+        viewController.view.addGestureRecognizer(tapGestureRecognizre)
+
+        return viewController
+    } ()
     
     var scrollView: UIScrollView = {
        let scrollView = UIScrollView()
@@ -221,7 +230,7 @@ class RocketDetailsViewController: UIViewController {
     }()
     
     private lazy var materialsView: LinksView = {
-        var  linksView = LinksView(titlesAndItsLinks: [("Wikipedia", rocketViewModel.wikipedia)])
+        var  linksView = LinksView(titlesAndItsLinks: [("Wikipedia", rocketViewModel.wikipedia)], navController: navigationController)
         linksView.titleLabel.text = "Materials"
         linksView.translatesAutoresizingMaskIntoConstraints = false
         return linksView
@@ -363,16 +372,26 @@ class RocketDetailsViewController: UIViewController {
             materialsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor,constant: -25)
         ])
     }
-    
+
+    @objc private func fullScreenImageViewTapped() {
+        presentedViewController?.dismiss(animated: true, completion: nil)
+    }
 }
 
 
 //MARK: - UICollectionViewDelegate
 extension RocketDetailsViewController: UICollectionViewDelegateFlowLayout {
-    
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let rocketImageURL = rocketViewModel.flickrImages[indexPath.item]
+        ImageClient.shared.setImage(on: fullScreenImageViewController.fullScreenImageView, from: rocketImageURL, with: UIImage.cellPlaceholderImage)
+
+        fullScreenImageViewController.modalPresentationStyle = .fullScreen
+        present(fullScreenImageViewController, animated: true, completion: nil)
+    }
 }
 
-//MARK: -UICollectionViewDataSource
+//MARK: - UICollectionViewDataSource
 extension RocketDetailsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return rocketViewModel.flickrImages.count

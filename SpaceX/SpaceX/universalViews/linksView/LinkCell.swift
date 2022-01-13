@@ -11,7 +11,8 @@ class LinkCell: UICollectionViewCell {
 
     private let button:LinkButton!
     private var hsveShadows = false
-    var linkURL: URL?
+    private var linkURL: URL?
+    private var navController: UINavigationController?
 
     override init(frame: CGRect) {
         button = LinkButton(frame: .zero)
@@ -24,9 +25,12 @@ class LinkCell: UICollectionViewCell {
     }
     
     //MARK: - public funcs
-    func setUpCell(title: String, url: URL){
+    func setUpCell(title: String, url: URL, navController: UINavigationController?){
         button.addTarget(self, action: #selector(buttonTouched), for: .touchUpInside)
         button.title = title
+        self.linkURL = url
+        self.navController = navController
+        
     }
     
     //MARK: - private funcs
@@ -51,7 +55,10 @@ class LinkCell: UICollectionViewCell {
     }
     
     @objc private func buttonTouched(){
-        
+        guard let url = linkURL else { return }
+        let webKitVC = WKViewController(url: url, title: button.title)
+    
+        navController?.pushViewController(webKitVC, animated: true)
     }
     
     required init?(coder: NSCoder) {
@@ -68,6 +75,4 @@ class LinkCell: UICollectionViewCell {
             hsveShadows = true
         }
     }
-    
-    
 }

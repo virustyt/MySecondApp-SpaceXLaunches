@@ -210,7 +210,7 @@ class AllRocketsViewControllerTests: XCTestCase {
         //when
         _ = whenDequeueFirstListingsCell()
         //then
-        XCTAssertEqual(mockImageClient.receivedPlaceholder, UIImage(named: "cat"))
+        XCTAssertEqual(mockImageClient.receivedPlaceholder, UIImage(named: "logo"))
     }
 }
 

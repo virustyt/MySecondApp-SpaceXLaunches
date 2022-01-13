@@ -36,20 +36,29 @@ class LinksView: UIView {
     }()
     
     private var urlsByTieles: [(String, URL)]!
+    private var navController: UINavigationController?
     
     private var collectionViewHeight = LinkButton.height() 
     
-    init(titlesAndItsLinks: [(String, URL?)]) {
+    init(titlesAndItsLinks: [(String, URL?)], navController: UINavigationController?) {
         super.init(frame: .zero)
         let nonNilURLs = titlesAndItsLinks.filter({ $0.1 != nil }).map({ ($0.0,$0.1!) })
         self.urlsByTieles = nonNilURLs
+        self.navController = navController
         setUpConstraints()
     }
-    
+
+    // MARK: - public funcs
+    func setNavigationController(to navCon: UINavigationController?) {
+        self.navController = navCon
+    }
+
+    // MARK: - inits
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    // MARK: - private funcs
     private func setUpConstraints(){
         addSubview(titleLabel)
         addSubview(linksCollectionView )
@@ -97,7 +106,7 @@ extension LinksView: UICollectionViewDataSource{
         guard let cell = linksCollectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? LinkCell
         else { fatalError("cell isnt of type LinkCell") }
         let (title, url) = urlsByTieles[indexPath.item]
-        cell.setUpCell(title: title, url: url)
+        cell.setUpCell(title: title, url: url,navController: navController)
         cell.setNeedsLayout()
         return cell
     }

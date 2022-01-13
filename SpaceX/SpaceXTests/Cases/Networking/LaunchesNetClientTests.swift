@@ -193,30 +193,31 @@ class LaunchesNetClientTests: XCTestCase {
         //then
         wait(for: [expectation], timeout: 10)
     }
-    
-    func test_getAllRockets_givenInvalidJSON_callsComplitionWithError() throws {
-        //given
-        let expectation = self.expectation(description: "getAllRockets calls complition with error")
-        let data = try Data.fromJson(fileName: "GET_Rockets_MissingValuesResponse")
-        var expectedError: NSError?
-        do {
-            _ = try JSONDecoder().decode([Rocket].self, from: data)
-        }
-        catch{
-            expectedError = error as NSError?
-        }
-        givenMockUrlResponse(data: data)
-        //when
-        _ = sut.getAllRockets(complition: {rockets, error in
-            XCTAssertNil(rockets)
-            let recievedError = error as NSError?
-            XCTAssertNotNil(recievedError)
-            XCTAssertEqual(expectedError?.domain, recievedError?.domain)
-            XCTAssertEqual(expectedError?.code, recievedError?.code)
-            expectation.fulfill()
-        })
-        wait(for: [expectation], timeout: 10)
-    }
+
+    // not actual for this app but it will be usfull like example in future
+//    func test_getAllRockets_givenInvalidJSON_callsComplitionWithError() throws {
+//        //given
+//        let expectation = self.expectation(description: "getAllRockets calls complition with error")
+//        let data = try Data.fromJson(fileName: "GET_Rockets_MissingValuesResponse")
+//        var expectedError: NSError?
+//        do {
+//            _ = try JSONDecoder().decode([Rocket].self, from: data)
+//        }
+//        catch{
+//            expectedError = error as NSError?
+//        }
+//        givenMockUrlResponse(data: data)
+//        //when
+//        _ = sut.getAllRockets(complition: {rockets, error in
+//            XCTAssertNil(rockets)
+//            let recievedError = error as NSError?
+//            XCTAssertNotNil(recievedError)
+//            XCTAssertEqual(expectedError?.domain, recievedError?.domain)
+//            XCTAssertEqual(expectedError?.code, recievedError?.code)
+//            expectation.fulfill()
+//        })
+//        wait(for: [expectation], timeout: 10)
+//    }
     
     func test_getAllRockets_givenHTTPStatusError_dispatchToResponseQueue(){
         verifyGetAllRocketsDispatchedToMain(statusCode: 500)

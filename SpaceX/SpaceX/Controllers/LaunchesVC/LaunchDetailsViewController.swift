@@ -9,10 +9,19 @@ import UIKit
 
 class LaunchDetailsViewController: UIViewController {
 
-    private var scrollView = UIScrollView()
+    private(set) var scrollView = UIScrollView()
     private var containerForAllViews = UIView()
     private var launchViewModel: LaunchViewModel!
-    
+
+    private lazy var fullScreenImageViewController: FullScreenImageViewController = {
+        let viewController = FullScreenImageViewController()
+
+        let tapGestureRecognizre = UITapGestureRecognizer(target: self, action: #selector(fullScreenImageViewTapped))
+        viewController.view.addGestureRecognizer(tapGestureRecognizre)
+
+        return viewController
+    } ()
+
     private lazy var tappedCell: LaunchesCollectionViewCell = {
         let cell = LaunchesCollectionViewCell()
         launchViewModel.setUpCell(cell: cell)
@@ -118,7 +127,7 @@ class LaunchDetailsViewController: UIViewController {
     
     private lazy var materialsView: LinksView = {
         let linksView = LinksView(titlesAndItsLinks: [("Wikipedia", launchViewModel.links.wikipedia),
-                                                      ("Youtube", launchViewModel.links.youtube)])
+                                                      ("Youtube", launchViewModel.links.youtube)], navController: self.navigationController)
         linksView.titleLabel.text = "Materials"
         
         return linksView
@@ -128,22 +137,38 @@ class LaunchDetailsViewController: UIViewController {
         let linksView = LinksView(titlesAndItsLinks: [("Campagin", launchViewModel.links.reddit.campaign),
                                                       ("Launch", launchViewModel.links.reddit.launch),
                                                       ("Media", launchViewModel.links.reddit.media),
-                                                      ("Recovery", launchViewModel.links.reddit.recovery)])
+                                                      ("Recovery", launchViewModel.links.reddit.recovery)], navController: self.navigationController)
         linksView.titleLabel.text = "Reddit"
         return linksView
     }()
     
-    //MARK: - constraints
-    var launchImagesCollectionViewHeightConstraint: NSLayoutConstraint?
-    var launchImagesCollectionViewAndTitleDistanceConstraint: NSLayoutConstraint?
+    // MARK: - constraints
+    private var launchImagesCollectionViewHeightConstraint: NSLayoutConstraint?
+    private var launchImagesCollectionViewAndTitleDistanceConstraint: NSLayoutConstraint?
 
-    //MARK: - life cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private lazy var launchCellsViewTopConstraint = tappedCell.topAnchor.constraint(equalTo: containerForAllViews.topAnchor,constant: 10)
+
+    // MARK: - public funcs
+    func launchCellsFrame() -> CGRect {
+        containerForAllViews.convert(tappedCell.frame, to: UIScreen.main.coordinateSpace)
+    }
+
+    func setLaunchCellsViewTopInset(to inset: CGFloat) {
+        launchCellsViewTopConstraint.constant = inset
+    }
+
+    // MARK: - life cycle
+    override func viewWillLayoutSubviews() {
         setUpConstraints()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        materialsView.setNavigationController(to: navigationController)
+        redditView.setNavigationController(to: navigationController)
+    }
     
-    //MARK: - inits
+    // MARK: - inits
     init(for launchVM: LaunchViewModel) {
         self.launchViewModel = launchVM
         super.init(nibName: nil, bundle: nil)
@@ -154,8 +179,8 @@ class LaunchDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - private funcs   
-    private func setUpConstraints(){
+    // MARK: - private funcs
+    private func setUpConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
@@ -187,6 +212,34 @@ class LaunchDetailsViewController: UIViewController {
         
         tappedCell.cellWidthConstraint.isActive = false
 
+        if launchViewModel.details == "" {
+            descriptionStackViewTopAnchorConstraint.constant = 0
+            descriptionStackView.spacing = 0
+            descriptionStackView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        }
+        
+        if launchViewModel.links.flickr.original.count == 0 {
+            launchImagesCollectionViewHeightConstraint?.constant = 0
+            launchImagesCollectionViewAndTitleDistanceConstraint?.constant = 0
+            launchImagesViewTopAnchorConstraint.constant = 0
+            launchImagesView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        }
+        
+        if launchViewModel.links.wikipedia == nil &&  launchViewModel.links.youtube == nil {
+            materialsView.setViewHeightToZero()
+            materialsViewTopAnchorConstraint.constant = 0
+            materialsView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        }
+        
+        if launchViewModel.links.reddit.campaign == nil &&
+            launchViewModel.links.reddit.launch == nil &&
+            launchViewModel.links.reddit.media == nil &&
+            launchViewModel.links.reddit.recovery == nil {
+            redditView.setViewHeightToZero()
+            redditViewTopAnchorConstraint.constant = 0
+            redditView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        }
+
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -200,7 +253,7 @@ class LaunchDetailsViewController: UIViewController {
 
             containerForAllViews.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
 
-            tappedCell.topAnchor.constraint(equalTo: containerForAllViews.topAnchor,constant: 10),
+            launchCellsViewTopConstraint,
             tappedCell.leadingAnchor.constraint(equalTo: containerForAllViews.leadingAnchor),
             tappedCell.trailingAnchor.constraint(equalTo: containerForAllViews.trailingAnchor),
 
@@ -234,35 +287,6 @@ class LaunchDetailsViewController: UIViewController {
             redditView.trailingAnchor.constraint(equalTo: containerForAllViews.trailingAnchor,constant: -20),
             redditView.bottomAnchor.constraint(equalTo: containerForAllViews.bottomAnchor, constant: -40)
         ])
-        
-        
-        if launchViewModel.details == "" {
-            descriptionStackViewTopAnchorConstraint.constant = 0
-            descriptionStackView.spacing = 0
-            descriptionStackView.heightAnchor.constraint(equalToConstant: 0).isActive = true
-        }
-        
-        if launchViewModel.links.flickr.original.count == 0 {
-            launchImagesCollectionViewHeightConstraint?.constant = 0
-            launchImagesCollectionViewAndTitleDistanceConstraint?.constant = 0
-            launchImagesViewTopAnchorConstraint.constant = 0
-            launchImagesView.heightAnchor.constraint(equalToConstant: 0).isActive = true
-        }
-        
-        if launchViewModel.links.wikipedia == nil &&  launchViewModel.links.youtube == nil {
-            materialsView.setViewHeightToZero()
-            materialsViewTopAnchorConstraint.constant = 0
-            materialsView.heightAnchor.constraint(equalToConstant: 0).isActive = true
-        }
-        
-        if launchViewModel.links.reddit.campaign == nil &&
-            launchViewModel.links.reddit.launch == nil &&
-            launchViewModel.links.reddit.media == nil &&
-            launchViewModel.links.reddit.recovery == nil {
-            redditView.setViewHeightToZero()
-            redditViewTopAnchorConstraint.constant = 0
-            redditView.heightAnchor.constraint(equalToConstant: 0).isActive = true
-        }
     }
     
     private func rocketCellHeght() -> CGFloat{
@@ -270,11 +294,22 @@ class LaunchDetailsViewController: UIViewController {
         smallestScreenSize = smallestScreenSize - 40
         return smallestScreenSize
     }
+
+    @objc private func fullScreenImageViewTapped() {
+        presentedViewController?.dismiss(animated: true, completion: nil)
+    }
 }
 
 //MARK: - UICollectionViewDelegate
 extension LaunchDetailsViewController: UICollectionViewDelegateFlowLayout {
-    
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let launchImageURL = launchViewModel.links.flickr.original[indexPath.item]
+        ImageClient.shared.setImage(on: fullScreenImageViewController.fullScreenImageView, from: launchImageURL, with: UIImage.cellPlaceholderImage)
+
+        fullScreenImageViewController.modalPresentationStyle = .fullScreen
+        present(fullScreenImageViewController, animated: true, completion: nil)
+    }
 }
 
 //MARK: -UICollectionViewDataSource

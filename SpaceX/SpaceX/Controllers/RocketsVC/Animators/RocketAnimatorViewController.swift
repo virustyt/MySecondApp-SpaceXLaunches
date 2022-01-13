@@ -7,14 +7,14 @@
 
 import UIKit
 
-class AnimatorViewController: NSObject {
+class RocketAnimatorViewController: NSObject {
 
     var duration: TimeInterval = 2
     var originFrame: CGRect?
     var presenting: Bool = false
 }
 
-extension AnimatorViewController: UIViewControllerAnimatedTransitioning {
+extension RocketAnimatorViewController: UIViewControllerAnimatedTransitioning {
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         duration
     }

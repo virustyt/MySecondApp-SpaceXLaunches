@@ -34,22 +34,22 @@ class LaunchTests: XCTestCase, DecodableTestCase {
         let givenReddit = try XCTUnwrap(givenLinks["reddit"] as? Dictionary<String, Any>)
         let givenFlickr = try XCTUnwrap(givenLinks["flickr"] as? Dictionary<String, Any>)
         //then
-        try XCTassertEqualsToAny(sut.links.patch.large, givenPatch["large"])
-        try XCTassertEqualsToAny(sut.links.patch.small, givenPatch["small"])
+        try XCTassertEqualsToAny(sut.links!.patch!.large, givenPatch["large"])
+        try XCTassertEqualsToAny(sut.links!.patch!.small, givenPatch["small"])
 
-        try XCTassertEqualsToAny(sut.links.reddit.campaign, givenReddit["campaign"])
-        try XCTassertEqualsToAny(sut.links.reddit.launch, givenReddit["launch"])
-        try XCTassertEqualsToAny(sut.links.reddit.media, givenReddit["media"])
-        try XCTassertEqualsToAny(sut.links.reddit.recovery, givenReddit["recovery"])
+        try XCTassertEqualsToAny(sut.links!.reddit!.campaign, givenReddit["campaign"])
+        try XCTassertEqualsToAny(sut.links!.reddit!.launch, givenReddit["launch"])
+        try XCTassertEqualsToAny(sut.links!.reddit!.media, givenReddit["media"])
+        try XCTassertEqualsToAny(sut.links!.reddit!.recovery, givenReddit["recovery"])
         
-        try XCTassertEqualsToAny(sut.links.flickr.original, givenFlickr["original"])
-        try XCTassertEqualsToAny(sut.links.flickr.small, givenFlickr["small"])
+        try XCTassertEqualsToAny(sut.links!.flickr!.original, givenFlickr["original"])
+        try XCTassertEqualsToAny(sut.links!.flickr!.small, givenFlickr["small"])
 
-        try XCTassertEqualsToAny(sut.links.presskit, givenLinks["presskit"])
-        try XCTassertEqualsToAny(sut.links.webcast, givenLinks["webcast"])
-        try XCTassertEqualsToAny(sut.links.article, givenLinks["article"])
-        try XCTassertEqualsToAny(sut.links.youtubeID, givenLinks["youtube_id"])
-        try XCTassertEqualsToAny(sut.links.wikipedia, givenLinks["wikipedia"])
+        try XCTassertEqualsToAny(sut.links!.presskit, givenLinks["presskit"])
+        try XCTassertEqualsToAny(sut.links!.webcast, givenLinks["webcast"])
+        try XCTassertEqualsToAny(sut.links!.article, givenLinks["article"])
+        try XCTassertEqualsToAny(sut.links!.youtubeID, givenLinks["youtube_id"])
+        try XCTassertEqualsToAny(sut.links!.wikipedia, givenLinks["wikipedia"])
     }
 
     func test_decodable_setStaticFireDateUTC() throws {

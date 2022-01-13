@@ -42,7 +42,7 @@ class LaunchViewModelTests: XCTestCase {
                               name: String = "name",
                               dateUTC: String =  "2020-03-01T10:20:00.000Z",
                               id: String = "id"){
-        let launch = Launch(links: links, staticFireDateUTC: staticFireDateUTC, rocket: rocket, success: success, details: details, name: name, dateUTC: dateUTC, id: id)
+        let launch = Launch(links: links, staticFireDateUTC: staticFireDateUTC, rocket: rocket, success: success, details: details, name: name, dateUTC: dateUTC, id: id, flightNumber: 5)
         sut = LaunchViewModel(launch)
     }
     
@@ -61,7 +61,7 @@ class LaunchViewModelTests: XCTestCase {
         
         XCTAssertEqual(sut.links.presskit, URL(string:"http//example.com/presskit")!)
         XCTAssertEqual(sut.links.webcast, URL(string:"http//example.com/webcast")!)
-        XCTAssertEqual(sut.links.youtubeID, "youtubeID")
+        XCTAssertEqual(sut.links.youtube?.absoluteString, "https://www.youtube.com/watch?v=youtubeID")
         XCTAssertEqual(sut.links.article, URL(string:"http//example.com/article")!)
         XCTAssertEqual(sut.links.wikipedia, URL(string:"http//example.com/wikipedia")!)
     }

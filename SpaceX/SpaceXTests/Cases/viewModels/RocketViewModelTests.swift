@@ -131,12 +131,12 @@ class RocketViewModelTests: XCTestCase {
         //when
         whenSutSetFromRocket(firstStage: firstStage)
         //then
-        XCTAssertEqual(sut.firstStage.thrustSeaLevel, "56 kN")
-        XCTAssertEqual(sut.firstStage.thrustVacuum, "21 kN")
+        XCTAssertEqual(sut.firstStage.thrustSeaLevel, "56.0 kN")
+        XCTAssertEqual(sut.firstStage.thrustVacuum, "21.0 kN")
         XCTAssertEqual(sut.firstStage.reusable, "Yes")
-        XCTAssertEqual(sut.firstStage.engines, "8")
-        XCTAssertEqual(sut.firstStage.fuelAmountTons, "67 tons")
-        XCTAssertEqual(sut.firstStage.burnTimeSEC, "576 seconds")
+        XCTAssertEqual(sut.firstStage.engines, "8.0")
+        XCTAssertEqual(sut.firstStage.fuelAmountTons, "67.0 tons")
+        XCTAssertEqual(sut.firstStage.burnTimeSEC, "576.0 seconds")
     }
     
     func test_initRocket_setSecondStage(){
@@ -152,11 +152,11 @@ class RocketViewModelTests: XCTestCase {
         //when
         whenSutSetFromRocket(secondStage: secondStage)
         //then
-        XCTAssertEqual(sut.secondStage.thrust, "85 kN")
+        XCTAssertEqual(sut.secondStage.thrust, "85.0 kN")
         XCTAssertEqual(sut.secondStage.reusable, "No")
-        XCTAssertEqual(sut.secondStage.engines, "7")
-        XCTAssertEqual(sut.secondStage.fuelAmountTons, "234 tons")
-        XCTAssertEqual(sut.secondStage.burnTimeSEC, "239 seconds")
+        XCTAssertEqual(sut.secondStage.engines, "7.0")
+        XCTAssertEqual(sut.secondStage.fuelAmountTons, "234.0 tons")
+        XCTAssertEqual(sut.secondStage.burnTimeSEC, "239.0 seconds")
     }
 
     func test_initRocket_setEngines(){
@@ -175,7 +175,7 @@ class RocketViewModelTests: XCTestCase {
         //when
         whenSutSetFromRocket(engines:engines)
         //then
-        XCTAssertEqual(sut.engines.number, "4")
+        XCTAssertEqual(sut.engines.number, "4.0")
         XCTAssertEqual(sut.engines.type, "testType")
         XCTAssertEqual(sut.engines.version, "testVersion")
         XCTAssertEqual(sut.engines.layout, "testLayout")
@@ -187,7 +187,7 @@ class RocketViewModelTests: XCTestCase {
         //when
         whenSutSetFromRocket(landingLegs: LandingLegs(number: 4, material: "stone"))
         //then
-        XCTAssertEqual(sut.landingLegs.number, "4")
+        XCTAssertEqual(sut.landingLegs.number, "4.0")
         XCTAssertEqual(sut.landingLegs.material, "stone")
     }
     

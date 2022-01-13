@@ -13,10 +13,11 @@ class RocketsViewController: UIViewController {
     var imageClient: ImageClientProtocol = ImageClient.shared
     var dataTask: URLSessionDataTask?
     var rocketsCollectionView: UICollectionView?
-    private var popAnimator = AnimatorViewController()
+    private var popAnimator = RocketAnimatorViewController()
     var selectedCell: RocketsCollectionViewCell?
     
-    var viewModels: [RocketViewModel] =  RocketViewModel.shared 
+//    var viewModels: [RocketViewModel] =  RocketViewModel.shared
+    var viewModels: [RocketViewModel] =  [RocketViewModel]()
     
     //MARK: - Life cycle
     override func viewDidLoad() {
@@ -36,8 +37,8 @@ class RocketsViewController: UIViewController {
         guard dataTask == nil else {return}
         self.rocketsCollectionView?.refreshControl?.beginRefreshing()
         dataTask = networkClient.getAllRockets(complition: {[weak self] rockets, error in
-//            self?.viewModels = rockets?.map {RocketViewModel(rocket: $0)} ?? []
-            RocketViewModel.shared = rockets?.map {RocketViewModel(rocket: $0)} ?? []
+//            RocketViewModel.shared = rockets?.map {RocketViewModel(rocket: $0)} ?? []
+            self?.viewModels = rockets?.map {RocketViewModel(rocket: $0)} ?? []
             
             self?.dataTask = nil
             self?.rocketsCollectionView?.reloadData()
@@ -154,7 +155,7 @@ extension RocketsViewController: UICollectionViewDataSource{
     private func rocketCell(tableView: UICollectionView, indexPath: IndexPath) -> RocketsCollectionViewCell{
         guard let cell = rocketsCollectionView?.dequeueReusableCell(withReuseIdentifier: RocketsCollectionViewCell.identifyer, for: indexPath) as? RocketsCollectionViewCell
         else { fatalError("dequed cell isnt of class RocketsCollectionViewCell.") }
-        let viewModel = RocketViewModel.shared[indexPath.item]
+        let viewModel = viewModels[indexPath.item]
         viewModel.setUpCell(cell: cell)
         
         if let urlForRocketImage = viewModel.flickrImages.first {
@@ -171,18 +172,23 @@ extension RocketsViewController: UICollectionViewDataSource{
 //MARK: - UINavigationControllerDelegate
 extension RocketsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        switch operation {
-        case .pop:
-            popAnimator.presenting = false
-        case .push:
-            selectedCell?.alpha = 0
-            if let cellsFrame = selectedCell?.frame {
-                popAnimator.originFrame =  rocketsCollectionView?.convert(cellsFrame, to: UIScreen.main.coordinateSpace)
-            }
-            popAnimator.presenting = true
-        default:
-            break
+        if toVC is WKViewController || fromVC is WKViewController{
+            return nil
         }
-        return popAnimator
+        else {
+            switch operation {
+            case .pop:
+                popAnimator.presenting = false
+            case .push:
+                selectedCell?.alpha = 0
+                if let cellsFrame = selectedCell?.frame {
+                    popAnimator.originFrame =  rocketsCollectionView?.convert(cellsFrame, to: UIScreen.main.coordinateSpace)
+                }
+                popAnimator.presenting = true
+            default:
+                break
+            }
+            return popAnimator
+        }
     }
 }

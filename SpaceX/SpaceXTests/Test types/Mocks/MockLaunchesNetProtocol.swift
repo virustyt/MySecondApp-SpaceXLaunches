@@ -10,12 +10,18 @@ import Foundation
 
 class MockLaunchesNetClient: LaunchesNetProtocol{
     var getAllRocketsCalls = 0
+    var getAllLaunchesCalls = 0
     var complition: (([Rocket]?,Error?) -> ())!
     var dummyDataTask: URLSessionDataTask = URLSession.shared.dataTask(with: URL(string: "dummy")!)
     
     func getAllRockets(complition: @escaping ([Rocket]?, Error?) -> ()) -> URLSessionDataTask? {
         getAllRocketsCalls += 1
         self.complition = complition
+        return dummyDataTask
+    }
+
+    func getAllLaunches(complition: @escaping ([Launch]?, Error?) -> ()) -> URLSessionDataTask? {
+        getAllLaunchesCalls += 1
         return dummyDataTask
     }
 }
