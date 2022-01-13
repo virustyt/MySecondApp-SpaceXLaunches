@@ -10,7 +10,7 @@ An iOS application that shows SpaceX rockets and launches.
  - ```XCTest```, ```UICollectionView```, ```URLSession```
 
    ## Prototype
-   ![hi](Readme files/12.png)
+   ![hi](ReadmeFiles/12.png)
 
    ## Workflow 
       <img alt="workflow element" src="ReadmeFiles/finalDemo.gif" width="380" />
