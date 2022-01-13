@@ -16,8 +16,7 @@ class RocketsViewController: UIViewController {
     private var popAnimator = RocketAnimatorViewController()
     var selectedCell: RocketsCollectionViewCell?
     
-//    var viewModels: [RocketViewModel] =  RocketViewModel.shared
-    var viewModels: [RocketViewModel] =  [RocketViewModel]()
+    var viewModels: [RocketViewModel] =  RocketViewModel.shared
     
     //MARK: - Life cycle
     override func viewDidLoad() {
@@ -37,8 +36,7 @@ class RocketsViewController: UIViewController {
         guard dataTask == nil else {return}
         self.rocketsCollectionView?.refreshControl?.beginRefreshing()
         dataTask = networkClient.getAllRockets(complition: {[weak self] rockets, error in
-//            RocketViewModel.shared = rockets?.map {RocketViewModel(rocket: $0)} ?? []
-            self?.viewModels = rockets?.map {RocketViewModel(rocket: $0)} ?? []
+            RocketViewModel.shared = rockets?.map {RocketViewModel(rocket: $0)} ?? []
             
             self?.dataTask = nil
             self?.rocketsCollectionView?.reloadData()
@@ -155,7 +153,7 @@ extension RocketsViewController: UICollectionViewDataSource{
     private func rocketCell(tableView: UICollectionView, indexPath: IndexPath) -> RocketsCollectionViewCell{
         guard let cell = rocketsCollectionView?.dequeueReusableCell(withReuseIdentifier: RocketsCollectionViewCell.identifyer, for: indexPath) as? RocketsCollectionViewCell
         else { fatalError("dequed cell isnt of class RocketsCollectionViewCell.") }
-        let viewModel = viewModels[indexPath.item]
+        let viewModel = RocketViewModel.shared[indexPath.item]
         viewModel.setUpCell(cell: cell)
         
         if let urlForRocketImage = viewModel.flickrImages.first {

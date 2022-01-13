@@ -94,7 +94,7 @@ class SortViewController: UIViewController {
     enum kindOfViewModel{
         case rockets(controller: RocketsViewController)
         case launches(controller: LaunchesViewController)
-        case launchpads(controller: LaunchpadsViewController)
+//        case launchpads(controller: LaunchpadsViewController)
     }
     
     var currentKindOfViewModelOnScreen: kindOfViewModel
@@ -113,12 +113,12 @@ class SortViewController: UIViewController {
                     2: "Title",
                     3: "Date",
                     4: "Chancel"]
-        case .launchpads:
-            return [0: "Choose your option",
-                    1: "Launch date",
-                    2: "Title",
-                    3: "Date",
-                    4: "Chancel"]
+//        case .launchpads:
+//            return [0: "Choose your option",
+//                    1: "Launch date",
+//                    2: "Title",
+//                    3: "Date",
+//                    4: "Chancel"]
         }
     }()
     
@@ -195,8 +195,8 @@ class SortViewController: UIViewController {
             sortRocketsByLaunchDate(containedIn: rocketsVC)
         case .launches(controller: let launchesVC):
             sortLaunchesByLaunchDate(containedIn: launchesVC)
-        case .launchpads(controller: let launchpadsVC):
-            sortLaunchpadsByLaunchDate(containedIn: launchpadsVC)
+//        case .launchpads(controller: let launchpadsVC):
+//            sortLaunchpadsByLaunchDate(containedIn: launchpadsVC)
         }
     }
     
@@ -206,8 +206,8 @@ class SortViewController: UIViewController {
             sortRocketsByLaunchCost(containedIn: rocketsVC)
         case .launches(controller: let launchesVC):
             sortLaunchesByTitle(containedIn: launchesVC)
-        case .launchpads(controller: let launchpadsVC):
-            sortLaunchpadsByTitle(containedIn: launchpadsVC)
+//        case .launchpads(controller: let launchpadsVC):
+//            sortLaunchpadsByTitle(containedIn: launchpadsVC)
         }
     }
     
@@ -217,8 +217,8 @@ class SortViewController: UIViewController {
             sortRocketsBySuccessRate(containedIn: rocketsVC)
         case .launches(controller: let launchesVC):
             sortLaunchesByDate(containedIn: launchesVC)
-        case .launchpads(controller: let launchpadsVC):
-            sortLaunchpadsByDate(containedIn: launchpadsVC)
+//        case .launchpads(controller: let launchpadsVC):
+//            sortLaunchpadsByDate(containedIn: launchpadsVC)
         }
     }
     
