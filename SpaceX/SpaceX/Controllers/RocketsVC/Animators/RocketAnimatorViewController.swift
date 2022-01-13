@@ -92,21 +92,21 @@ extension RocketAnimatorViewController: UIViewControllerAnimatedTransitioning {
         detailsViewController.secondRocketNameOnlyForAnimationLabel.transform = .init(scaleX: 1/detailsViewScaleX,
                                                                                       y: 1/detailsViewScaleY)
         detailsViewController.secondRocketNameOnlyForAnimationLabel.layer.anchorPoint = .init(x: 0.5 * detailsViewScaleX, y: 0.5 / detailsViewScaleY)
+
+        if !self.presenting{
+            detailsViewController.scrollView.setContentOffset(CGPoint(x: 0, y: -detailsViewController.view.safeAreaInsets.top ), animated: false)
+        }
         
         detailsView.layoutIfNeeded()
         
         //Animate
-        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: .curveLinear, animations: {
             //animate detailsView frame
             detailsView.transform = self.presenting ? .identity : detailsViewScaleTransform
             detailsView.frame.origin = finalFrame.origin
             detailsView.frame.size.height = self.presenting ? detailsViewEtierScreenHeight : finalFrame.height
             
             detailsView.layer.cornerRadius = self.presenting ? 0 : 20
-            
-            if !self.presenting{
-                detailsViewController.scrollView.setContentOffset(CGPoint(x: 0, y: -detailsViewController.view.safeAreaInsets.top ), animated: false)
-            }
 
             //animate rocketTitleLabel position
             detailsViewController.rocketTitleBottomAnchorConstraint.constant = self.presenting ? originBottomConstant / detailsViewScaleY : (cellTitleTopConstant + detailsTitleHeight) / detailsViewScaleY
